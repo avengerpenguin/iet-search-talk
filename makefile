@@ -9,4 +9,4 @@ bbc_search.pdf:
 pdf: bbc_search.pdf
 
 show: bbc_search.pdf
-	xpdf -remote server bbc_search.pdf -raise
+	xpdf -remote talk bbc_search.pdf -raise
