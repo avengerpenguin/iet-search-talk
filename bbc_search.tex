@@ -3,6 +3,12 @@
 \usetheme{Pittsburgh}
 \usecolortheme{beaver}
 
+\usepackage{dot2texi}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usepackage{bookmark}
+\usepackage{graphicx}
+
 \title{Web Search and the BBC}
 \author{Ross Fenning}
 \institute{Senior Software Engineer\\Homepage, Search and Navigation\\Future Media\\BBC}
@@ -17,22 +23,22 @@
 \begin{frame}
   \frametitle{What is BBC Search?}
   \framesubtitle{i.e. What do I work on?}
-  %screenshot of search box
+  \includegraphics[width=\linewidth]{homepage.png}
 \end{frame}
 
 \begin{frame}
   \frametitle{BBC Search results}
-  %screenshot of results page
+  \includegraphics[width=\linewidth]{results.png}
 \end{frame}
 
 \begin{frame}
   \frametitle{BBC iPlayer Search results}
-  %screenshot of iPlayer results
+  \includegraphics[width=\linewidth]{iplayer.png}
 \end{frame}
 
 \begin{frame}
   \frametitle{CBBC Search results}
-  %screenshot
+  \includegraphics[width=\linewidth]{cbbc.png}
 \end{frame}
 
 \begin{frame}
@@ -65,17 +71,36 @@
   \end{enumerate}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{What is web search?}
+  \begin{center}
+    \begin{dot2tex}[dot,mathmode,scale=0.8]
+      digraph G {
+        rankdir=LR;
+        node [shape="circle"];
+        Crawling -> Indexing -> Querying;
+      }
+    \end{dot2tex}
+  \end{center}
   \begin{enumerate}
-    \item Web crawling
-    \item Indexing
-    \item Searching/Querying
+    \item Crawl the web to find new pages
+    \item Index pages to make it easier to search
+    \item Searching/querying the page index
   \end{enumerate}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Web crawling}
+  \frametitle{Web Crawlers}
+  \begin{enumerate}
+    \item Visit a page already known about
+    \item Add that page to the search index
+    \item Find all the links in that page
+    \item Store all those links and visit them as well
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Extracting Content}
   Crawlers/Spiders, Last-Modified, Extracting content
 \end{frame}
 
