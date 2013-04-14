@@ -45,11 +45,29 @@
   \frametitle{BBC iPlayer Search results}
   \includegraphics[width=\linewidth]{iplayer.png}
 \end{frame}
+\note{
+  Some parts of the BBC website have a specialised, ``scoped'' search
+  that only searches amongst content for that part of the site. Here,
+  we see the result of having clicked the ``iPlayer'' navigation link
+  and then used the search box.
+
+  This is based on the assumption that if someone is already on the
+  iplayer pages, then any searches they do will be for only TV and
+  Radio programmes that are currently available to watch or listen to.
+}
 
 \begin{frame}
   \frametitle{CBBC Search results}
   \includegraphics[width=\linewidth]{cbbc.png}
 \end{frame}
+\note{
+  Here, we have a search page that only shows pages and content suitable
+  for children under 13. The search scoping is now not just for the
+  convenience of only showing pages for the section we're in, but also
+  providing a safe, appropriate subsection of the wider BBC website
+  for children where they are only navigating, searching and viewing
+  things that are known to be suitable.
+}
 
 \begin{frame}
   \frametitle{What's happening with BBC search?}
@@ -62,6 +80,17 @@
     \pause \item Improve user experience
   \end{itemize}
 \end{frame}
+\note{
+  The search facility has run without a lot of changes for a few years now.
+  It has recently been identified as one of the major online ``products'' as
+  part of the BBC online service and now has a new, prominent team in
+  MediaCityUK, Salford. We are initially looking to change the commercial
+  provider of the core search engine itself and then do some improvements
+  that won't be too visible to the audience right away. Hopefully once
+  we've cut out old parts that are no longer in use and generally improve
+  the architecture, it will make it easier to try a lot more visible
+  improvements to the user experience.
+}
 
 \begin{frame}
   \frametitle{Outline of this talk}
@@ -79,6 +108,21 @@
     \pause \item How do we search BBC content?
     \pause \item How can we keep improving the experience?
   \end{enumerate}
+\end{frame}
+\note{
+  Today, I will talk about what web search is academically and generally
+  then introduce the ``why'' and the ``what'' of BBC search
+  Then we can look at some specific software engineering principles
+  relevant to such a large software project and then move on
+  to some of the challenges faced by doing a search for the whole of
+  BBC online.
+}
+
+% Section 1
+
+\begin{frame}
+  \frametitle{What is the web?}
+
 \end{frame}
 
 \begin{frame}[fragile]
@@ -98,6 +142,33 @@
     \item Searching/querying the page index
   \end{enumerate}
 \end{frame}
+\note {
+  The process involved in putting together any search engine such
+  as Google can essentially be broken down into three phases:
+  1) web crawling or otherwise acquiring a list of pages/items that you
+  want the search to be able to find; 2) organising those pages/items
+  into an index that is easily and quickly searchable; and 3) performing
+  searches or queries against that index to present a list of
+  pages that are likely of interest to the person who entered a search.
+
+  We can aliken this to creating even a paper index of books within
+  a library without even involving a computer-based system. First,
+  we must acquire a list of books the library has, which we can do
+  by walking along all the shelves and taking note of what we have.
+  Then we must take this list of books and organise them in some way.
+  For example, we could reorder them into a system such as Dewey Decimal
+  where they are grouped by genre or category. We could keep a list
+  of which floor of our library has which categories and which books
+  we have in each category. We could even
+  write some extra keywords on our list next to each book so make it
+  easier to see at a glance precisely what each book is about.
+  Then, finally we have a visitor who enters the library, tells us
+  they are looking for books on, say, psychology and we can refer
+  to our list, perhaps ask them to be more specific about their
+  query (child psychology, perhaps) and then we can point them
+  to a recommended floor, shelf number and possibly a list of book
+  titles they might be interested in.
+}
 
 \begin{frame}
   \frametitle{Web Crawlers}
@@ -125,6 +196,8 @@
 \begin{frame}
   \frametitle{Searching the index}
 \end{frame}
+
+% Section 2
 
 \begin{frame}
   \frametitle{Scoring}
