@@ -126,7 +126,7 @@
   \begin{enumerate}
     \pause \item Collection of pages/documents
     \pause \item Each has a unique address, e.g. http://en.wikipedia.org/wiki/World\_Wide\_Web
-    \pause \item Those addresses are known as \emph{Unique Resource Locators} (URLs)
+    \pause \item Those addresses are known as \emph{Uniform Resource Locators} (URLs)
     \pause \item Pages/documents contain \emph{hyperlinks} to other pages/documents
     \pause \item We now have images, videos, games, etc. and not just pages and documents
   \end{enumerate}
@@ -138,7 +138,7 @@
 
   The Web is essentially the collection of all pages we can get to
   with a web browser, each with a unique address, known as a
-  Unique Resource Locator or URL. Where the web metaphor
+  Uniform Resource Locator or URL. Where the web metaphor
   comes in is that these pages can link to each other by embedding
   each other's URLs and thus pages can reference each other easily.
 
@@ -205,25 +205,222 @@
   \end{enumerate}
 \end{frame}
 \note {
-  
+  A web search such as Google can only know about pages people
+  might be looking for by crawling as many pages on the web that
+  can be found. This is the equivalent of taking stock and writing
+  down all the books on the library shelf, except in this case
+  we have a whole web of pages and content that is effectively boundless --
+  a stark contrast to a library of very finite size.
+
+  We can start a crawling process by visiting a page we know about -- let's
+  say the front page of Wikipedia. We can note the content of that page
+  and index it, but the page itself will contain links to many featured articles.
+  We can keep a note of all those links, follow them to the articles themselves
+  and repeat the crawl process using all the links on those pages.
 }
 
 \begin{frame}
   \frametitle{Extracting Content}
-  Crawlers/Spiders, Last-Modified, Extracting content
+  \includegraphics[width=\linewidth]{wikipedia.png}
 \end{frame}
+\note{
+  So, we have a list of pages, like the Wikipedia article shown. Before we
+  can create our index, there is at least one important challenge to overcome
+  first. Looking at the Wikipedia article shown, there's text that doesn't
+  actually form part of the article such as the navigation menu down the side.
+
+  We don't want to suggest this article when someone searches for ``current events''
+  or ``random article'', so we need to find a way to identify what is part
+  of the actual article and what is not. It's probably clear to us as humans, but
+  how do we make a machine understand that distinction? It's less obvious to a
+  computer and different websites have different layouts, so this can be quite
+  an interesting challenge.
+}
 
 \begin{frame}
   \frametitle{Indexing}
+  \framesubtitle{e.g. Inverted Index}
+  \begin{center}
+    \begin{tabular}{|l|l|}
+      \hline
+      \bf{Documents}   & \bf{Words}             \\ \hline
+      Document 1 & three,blind,mice  \\ \hline
+      Document 2 & three,little,pigs \\ \hline
+      Document 3 & pigs,in,blankets  \\ \hline
+    \end{tabular}
+
+    $\downarrow$
+
+    \begin{tabular}{|l|l|}
+      \hline
+      \bf{Words}     & \bf{Documents}              \\ \hline
+      three    & Document 1,Document 2\\ \hline
+      pigs     & Document 2,Document 3 \\ \hline
+      blind    & Document 1             \\ \hline
+      mice     & Document 1             \\ \hline
+      little   & Document 2             \\ \hline
+      in       & Document 3             \\ \hline
+      blankets & Document 3             \\ \hline
+    \end{tabular}
+
+  \end{center}
+\end{frame}
+\note{
+  After having crawled or otherwise collected up a collection of documents or
+  pages that we might want to present in search results, we need to create
+  a search index that will enable accurate and quick queries to be made against
+  it. Clearly, reading through every article for keywords entered by a user
+  every time a new query in is an inefficient way to work. The process of indexing
+  arranges all your documents and pages in such a way as to make searches easier,
+  much like the Dewey Decimal categorisation in our library example earlier.
+
+  A very basic form of search index is the \emph{inverted index}. Here, we create
+  a lookup table where each word points to the documents that contain that word.
+  In the example shown, if a user types in the word ``pigs'', we can point them
+  at the second and third document. Note how we can do that with one lookup and
+  we are not required to read through each document looking for the word ``pigs'',
+  which would be much more time consuming on large documents.
+
+  There are many more sophisticated structures and arrangements that can
+  bring other benefits, but this is already a much faster way to find documents
+  that match a keyword. However, if we were to add a document that contains
+  the word ``mouse'', should that be put in the same row along with the first
+  document that contains mouse? This leads us onto the linguistic techniques we
+  need to consider when building a search index.
+}
+
+\begin{frame}
+  \frametitle{Linguistics Techniques}
   \begin{itemize}
-  \item Inverted Index
-  \item Stemming? Tokenisation? Lemmatisation?
+    \pause \item Tokenisation
+    \begin{itemize}
+      \pause \item Breaking sentences up into words or \emph{tokens}
+      \pause \item English generally uses spaces, but Chinese does not
+      \pause \item \emph{o'clock}? \emph{twenty-one}? \emph{:-)}? \emph{Robin Hood}?
+    \end{itemize}
+    \pause \item Stemming
+    \begin{itemize}
+      \pause \item Remove suffixes so that, e.g.  swim and swimming are the same
+      \pause \item What's the stem of argue and arguing? Dry and dries?
+      \pause \item Overstemming: \emph{Music}, \emph{Musical} and \emph{Musician}
+    \end{itemize}
+    \pause \item Lemmatisation
+    \begin{itemize}
+      \pause \item Swim, Swam Swum
+      \pause \item Think, Thought
+      \pause \item Good, Better, Best
+    \end{itemize}
+    \pause \item All of this only applies to \emph{English}
+    \pause \item Other languages need their own rules
   \end{itemize}
 \end{frame}
+\note {
+  In the previous slide, we assumed we had already extracted all the words out
+  of a document, but even that process might not be as simple as it would seem.
+  The process for turning paragraphs of text into individual words or \emph{tokens}
+  as the more exact term should be is known as \emph{tokenisation}.
+
+  For English, we can assume a space breaks text into words, but not all languages
+  behave this way. Chinese has no boundaries between words. Even in English, we
+  sometimes have things like apostrophes or hyphens. Perhaps we might want to
+  identify very specific tokens such as smiley faces or maybe we want to treat
+  names like \emph{Robin Hood} as a single token since the individual words
+  \emph{robin} and \emph{hood} carry very different meanings when encountered
+  individually.
+
+  Once we have our words, we probably don't want swim and swimming to be seen
+  differently as they are essentially the same word. This is know as \emph{stemming}.
+  Stemming gets more complex that just removing letters when you have things like
+  \emph{dry} and \emph{dries} where you have to change letters as well as remove
+  to get the common stem. Then the problem of \emph{overstemming} can occur when
+  removing what looks like simple suffices actually changes the word. Here, we can
+  see that \emph{musical} is fine to lose the suffix \emph{-al} where
+  it's the adjective from the noun \emph{music}, but it might be incorrect when a document
+  is taking about the noun \emph{musical} as in a stage production since those two
+  concepts aren't exactly the same thing. It gets worse still if our stemming
+  process also decided to reduce \emph{musician} down to the same as music as that
+  is, again, a different concept.
+
+  Lemmatisation overlaps somewhat with stemming in that stemming could be seen
+  as a na\"ive approach to lemmatisation. Our goal here is not just to reduce
+  a word to some root stem before using it for our index, but also to find
+  all inflections or variants and reduce them to their \emph{lemma}. So \emph{swimming}
+  was previously stemmed to swim, but we also want to recognise that \emph{swam}
+  and \emph{swum} could probably be converted to \emph{swim} as well before indexing.
+  We have other examples such as think, thought, catch, caught. It's not just verbs
+  either as \emph{better} and \emph{best} could be recognised as variants of
+  \emph{good}.
+
+  The main difference between stemming and lemmatisation is that stemming happens
+  without any real context of the word and can make more mistakes, but is a lot faster.
+  Lemmatisation usually takes into account the meaning of the word in the sentence
+  and is less likely to confuse things like \emph{musical} the adjective and
+  \emph{musical} the noun for a stage production.
+
+  All of this is fairly technical linguistics terminology, but the easiest way to think of
+  it all is that the lemma of a word is the form you would look up in a dictionary. So,
+  if you wanted to know the meaning of the word ``caught'' you are likely to look
+  up ``catch'' and wouldn't really expect there to be an entry for caught.
+
+  The result of this if we look back at our inverted index example before:
+}
+
+\begin{frame}
+  \frametitle{Indexing}
+  \framesubtitle{e.g. Inverted Index}
+  \begin{center}
+    \begin{tabular}{|l|l|}
+      \hline
+      \bf{Words}     & \bf{Documents}              \\ \hline
+      three    & Document 1,Document 2\\ \hline
+      \bf{pig}     & Document 2,Document 3 \\ \hline
+      blind    & Document 1             \\ \hline
+      \bf{mouse}     & Document 1             \\ \hline
+      little   & Document 2             \\ \hline
+      in       & Document 3             \\ \hline
+      \bf{blanket} & Document 3             \\ \hline
+    \end{tabular}
+
+  \end{center}
+\end{frame}
+\note{
+  We see that our index now prefers the singular forms pig, mouse and blanket. So,
+  if we were then to add a document with the word ``mouse'' it would be put in the same
+  entry as ``three blind mice'' and a someone querying our search index could
+  type ``mouse'' or ``mice'' and it would find either entry. This is clearly
+  better for users and you can try this out on Google by searching ``mice'' yourself and
+  you will likely get plenty of results with ``mouse'' in the title.
+}
 
 \begin{frame}
   \frametitle{Searching the index}
+  \begin{itemize}
+    \pause \item User enters some keywords
+    \pause \item Look up documents/pages that contain keywords
+    \pause \item Present a list of results
+    \pause \item Should results contain all or just some of the keywords?
+    \pause \item What order should results be in?
+    \pause \item What other information can be used?
+  \end{itemize}
 \end{frame}
+\note{
+  The third and final stage in our search system is the actual searching
+  of the index itself. We've already covered this a bit since our
+  inverted index made this quite easy with one lookup.
+
+  We start by taking the keywords the user typed in and search our index
+  for all documents containing those words and then present a list of
+  those documents as candidates for what the user was probably seeking.
+
+  There are many more intricate techniques to do with what to do
+  if the document only contains some of the words, how best to order
+  the results and Google itself takes into account a lot of contextual
+  information such as time and where in the world you are.
+
+  We can look briefly at how we decide which are the better matches so
+  we can order the results and also how Google deals with the issue
+  of wanting to prefer trustworthy sources for a topic.
+}
 
 % Section 2
 
@@ -234,6 +431,12 @@
 \begin{frame}
   \frametitle{Google Pagerank}
 \end{frame}
+\note {
+  One disadvantage of
+  the World Wide Web is the ease of creating pages allows for a sea
+  of non-trustworthy, inaccurate, malicious and unhelpful sites that
+  can make finding a reliable and suitable site a difficult endeavour.
+}
 
 \begin{frame}
   \frametitle{Standard Search Interface}
