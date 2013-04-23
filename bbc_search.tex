@@ -162,9 +162,9 @@
     \end{dot2tex}
   \end{center}
   \begin{enumerate}
-    \item Crawl the web to find new pages
-    \item Index pages to make it easier to search
-    \item Searching/querying the page index
+    \pause \item Crawl the web to find new pages
+    \pause \item Index pages to make it easier to search
+    \pause \item Searching/querying the page index
   \end{enumerate}
 \end{frame}
 \note {
@@ -306,7 +306,7 @@
     \end{itemize}
     \pause \item Lemmatisation
     \begin{itemize}
-      \pause \item Swim, Swam Swum
+      \pause \item Swim, Swam, Swum
       \pause \item Think, Thought
       \pause \item Good, Better, Best
     \end{itemize}
@@ -366,8 +366,7 @@
 }
 
 \begin{frame}
-  \frametitle{Indexing}
-  \framesubtitle{e.g. Inverted Index}
+  \frametitle{Stemmed and Lemmatised Index}
   \begin{center}
     \begin{tabular}{|l|l|}
       \hline
@@ -426,18 +425,77 @@
 
 \begin{frame}
   \frametitle{Scoring}
+  \framesubtitle{tf-idf}
+  \begin{equation}
+    \mathrm{tf}(t,d) = \frac{\mathrm{f}(t, d)}{\max\{\mathrm{f}(w, d):w \in d\}}
+  \end{equation}
+  \vfill
+  \begin{equation}
+    \mathrm{idf}(t, D) =  \log \frac{|D|}{|\{d \in D: t \in d\}|}
+  \end{equation}
+  \vfill
+  \begin{equation}
+    \mathrm{tfidf}(t,d,D) = \mathrm{tf}(t,d) \times \mathrm{idf}(t, D)
+  \end{equation}
 \end{frame}
 \note{
+  So, we've found a list of documents or pages that seem to match
+  a search query, but how can we determine which of them is
+  the ``best'' match? Searches like Google tend to show results
+  as a list from most relevant or best match down to the lesser matches
+  towards the end of the list.
+
+  There are many ways to do this, we can look at an example of one
+  approach known as \emph{tf-idf}.
 }
 
 \begin{frame}
   \frametitle{Google Pagerank}
+  \includegraphics[width=\linewidth]{pagerank.png}\\
+  \tiny
+  An art draw drawn by Felipe Micaroni Lalli (micaroni@gmail.com).
 \end{frame}
 \note {
+  In the tf-idf scoring algorithm before, we saw that pages and documents
+  score highly if they contain many references to a search term, especially
+  if that term rarely appears in other documents. The assumption with
+  this is that all pages are equal however. This means I can put up
+  any old page I like about a topic such as web search and -- if
+  I meantion the words web and search enough -- I can appear above
+  the Wikipedia article, say, on that topic.
+
   One disadvantage of
   the World Wide Web is the ease of creating pages allows for a sea
   of non-trustworthy, inaccurate, malicious and unhelpful sites that
   can make finding a reliable and suitable site a difficult endeavour.
+
+  To counter this, Larry Page developed Pagerank at Stanford University
+  back in 1996 and this forms a large part of the commercial search
+  offered by Google today, although it is likely supported by
+  many alterations and additiona algorithms now.
+
+  Briefly, this is best illustrated by the artistic graphic shown here.
+  The largest face has the highest Pagerank because it is linked to by
+  the most other faces. This is similar to how a lot of people are likely
+  to link to well-known and reliable sources such as Wikipedia for general
+  topics or BBC News when referring to a current event.
+
+  The smaller faces represent lesser-known sites. They link to other pages,
+  but nobody is linking to them, so Google won't give high scores to search
+  results unless they are such brilliant matches for a search term that
+  they outweigh the larger, well-known sites.
+
+  Note that the red one at the top has only one link to it, yet it is
+  larger than the green one nearest it. This is because the link to
+  it comes from a very well-respected website and it gives more weight
+  to that single link. All Pageranks are calculated in this way in
+  that a site with a larger Pagerank feeds more into the Pagerank of
+  all other sites it links to. In this way, sites with a lot of respect
+  can figuratively ``vouch for'' other sites simply by linking to them.
+
+  Thus the final ``score'' of a potential result for a search query is
+  some combination of the keywords in the document and the Pagerank
+  notability score.
 }
 
 \begin{frame}
