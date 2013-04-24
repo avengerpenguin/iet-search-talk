@@ -8,6 +8,7 @@
 \usetikzlibrary{shapes,arrows}
 \usepackage{bookmark}
 \usepackage{graphicx}
+\usepackage{todonotes}
 
 \title{Web Search and the BBC}
 \author{Ross Fenning}
@@ -498,38 +499,208 @@
   notability score.
 }
 
+% Section 3
+
+\begin{frame}
+  \frametitle{Search Design Patterns}
+  % TODO: Image
+  \missingfigure
+\end{frame}
+\note{
+  So, we've looked at the technical and mathematical side of finding
+  content, indexing it for fast retrieval and then performing queries
+  against that content index. However a large part of a search application
+  is the human interaction with it. Google was notable in the late 1990s
+  for its simplistic, no-nonsense interface at a time when other large
+  content providers were producing home pages with multiple links
+  and other distractions.
+
+  As the web, searching and web design in general has matured over the years,
+  common solutions or \emph{patterns} has emerged that we can explore
+  briefly now.
+}
+
 \begin{frame}
   \frametitle{Standard Search Interface}
+  % TODO: Image
+  \missingfigure  
 \end{frame}
+\note{
+  We can see here the standard search interface common to mosh search
+  systems. There's the search box into which users can type their queries,
+  a button such as a magnifying glass for submitting that query and results
+  are displayed in a list down the page from ``best'' down to ``worst''
+  match.
+
+  So, a common problem with relying on people to type in queries by hand
+  is that users don't always write queries that will get the results they
+  like. They aren't always aware when they use ambiguous terms, when
+  they make spelling mistakes or when they don't give specific enough
+  information.
+
+  We can solve some of this in the searching and querying algorithms we
+  looked at before. For example, we can make assumptions about what the
+  user meant to type if they make a spelling mistake and fix their
+  query for them. However, there is only so much you can do before you
+  are second guessing the user's intentions and risk the system behaving
+  unexpectedly by returning results for a query very different from what
+  was actually typed in.
+
+  Since we are looking at design patters, is there a way to solve this
+  at the human interface level?
+}
 
 \begin{frame}
   \frametitle{Autocomplete}
+  %TODO
+  \missingfigure
 \end{frame}
+\note{
+  A common feature of search systems is an autocomplete. This is commonly
+  implemented as some prompt underneath where you are typing. The prompt
+  can suggest words or concepts you might be typing and speed up query
+  entry. The side effect of this is that users are more likely to type
+  in correctly-spelled words if they choose suggestions more often than
+  type them in by hand.
+}
 
 \begin{frame}
   \frametitle{Autosuggest}
+  %TODO
+  \missingfigure
 \end{frame}
+\note {
+  Autosuggest is a feature similar to, but subtly distinct from autocomplete.
+  The mechanism is similar in that a prompt can suggest searches as the user
+  is typing their query, but rather than offering potential completions
+  of words or phrases in their query alone, more sophisticated and complex
+  suggestions can be made.
+
+  For example, we might see that a user is typing in ``what's on TV'' and
+  suggest a link to ``TV Schedules''. This is not a completion of what
+  the user was typing, but likely a valid suggestion. A user might type
+  the number 1 and we might suggest ``BBC One'' or ``BBC Radio One''.
+  They might be typing in a football team like ``Manchester U''. We can
+  simultaneously offer the completion ``Manchester United'' whilst also
+  suggest things like ``Premier League tables''.
+}
 
 \begin{frame}
   \frametitle{Spell Check}
+  %TODO
+  \missingfigure
 \end{frame}
+\note {
+  Another common and recognisable feature for helping users form correct
+  queries is one which offers correct spellings of words in their queries.
+  More precisely, searches such as Google can offer things like
+  ``Did you mean?'' where they can identify that for the sake of changing
+  one or two letters, the query would have returned a lot more and better
+  results. This does not require a dictionary as such to look up spelling
+  mistakes, but more relies on the indexes themselves to be a good
+  authority on what are real words or not.
+
+  Google is in a particularly strong position to do such what is essentially
+  a statistical approach to correcting search queries. Their indexes are
+  perhaps a better record of English (or any language) in its common use
+  than any dictionary compiled by hand. They can use this large body
+  of real language usage to do their automatic translation service. Instead
+  of hiring linguists and translators for every language, they can
+  infer a lot based on observations such as whenever an English site
+  uses the word ``apple'' a French site tends to use the word ``pomme''.
+  Even better is that this gives a contextual sensitivity that a simple
+  dictionary could never do. For example, a large collection of French
+  and English documents could tell use that ``apple juice'' tends to be
+  ``jus de pomme'' in French, but that ``Apple Computers'' tends to be
+  exactly the same in French.
+}
 
 \begin{frame}
   \frametitle{Facets}
+  %TODO
+  \missingfigure
 \end{frame}
+\note{
+  Sometimes the results we get back might be quite generic across multiple
+  kinds of content. I might enter a generic query such as ``football'' and
+  get a mix of football news stories, football results tables, TV programmes
+  that feature football and maybe even films that are about football such
+  as ``Bend It Like Beckham''.
+
+  A common interface feature here is to provide facets, which are indication
+  of the categories your results fall into and allow you to narrow down your
+  search to things only within a particular category.
+}
 
 \begin{frame}
   \frametitle{Localisation}
+  %TODO
+  \missingfigure
 \end{frame}
+\note{
+  In all of the search techniques shown so far, what should happen if I search
+  ``plumber'' in Google? Clearly any page on the World Wide Web that mentions
+  plumber or plumbing is relevant to my search. We can use Google's Pagerank
+  to prefer trustworthy sites that receive many links over unknown sites, but
+  the obvious problem remains: what use is a very trustworthy plumber in
+  Adelaide if I live in Stockport?
+
+  Google already takes your current country into account by virtue of whether
+  you are using google.co.uk or google.fr or google.de. This means if we're
+  searching for things where the country really matters -- such as local
+  businesses -- we can prefer results within the same country. With
+  smartphones and other ways of detecting a user's exact location down to city
+  or post code level, we can be even smarter and show only plumbers in
+  Greater Manchester, say.
+
+  Where can the BBC make use of this? Well, the BBC allows you to search for
+  your location already for localising the home page, presenting local
+  news or giving you the weather near you. This is something we don't
+  currently make much use of, but if a user searches ``local news''
+  and we know they live in Cardiff, perhaps we can bias towards news
+  local to South Wales?
+}
 
 \begin{frame}
   \frametitle{Advanced Search}
+  %TODO
+  \missingfigure
 \end{frame}
+\note{
+  This is a common search feature that might be questionable to the
+  average user. Sometimes we want to perform a very exact query for
+  a particular search term but with very precise restrictions over
+  how recent item is or other aspects such as categories for the items.
+
+  Whilst this can be achieved with facets as shown earlier, a common
+  pattern is to allow the user to open up an advanced search form before
+  searching anything in order to specify very precise search restrictions.
+
+  The reason why I personally flag it as questionable is that the same
+  effect can be achieved by allowing a very basic search in the first
+  instance, but then present ways to narrow that down later. A simple
+  interface is normally better for most people and Google does not
+  even offer ``advanced search'' as a feature. Despite that,
+  many other websites offer an ``advanced search'' link that offers
+  up a more powerful form for very precise queries.
+}
 
 \begin{frame}
   \frametitle{Similar}
   \framesubtitle{``More like this''}
+  %TODO
+  \missingfigure
 \end{frame}
+\note{
+  The last pattern I'll cover here is the idea of presenting users
+  with ``more like this''. This is most notably used by Amazon for directing
+  users to products that they might be interested in, not because they
+  searched specifically for terms that match those products, but because
+  products that \emph{did} match their search are similar to other ones
+  they might wish to buy.
+}
+
+% Section 4
 
 \begin{frame}
   \frametitle{Why BBC Search?}
