@@ -739,7 +739,7 @@
 \begin{frame}
   \frametitle{Understanding BBC TV Programmes}
   %TODO
-  \missingfigure
+  \missingfigure{}
 \end{frame}
 \note{
   Now, Google results are pretty good when searching for Question Time
@@ -758,7 +758,7 @@
 \begin{frame}
   \frametitle{Understanding BBC Radio Programmes}
   %TODO
-  \missingfigure
+  \missingfigure{}
 \end{frame}
 \note{
   Similarly to understanding TV programmes, we can use knowledge about
@@ -768,7 +768,7 @@
 \begin{frame}
   \frametitle{Linking News and other content by topic}
   %TODO
-  \missingfigure
+  \missingfigure{}
 \end{frame}
 \note{
   When someone is searching for the latest news about an ongoing event
@@ -780,7 +780,7 @@
 \begin{frame}
   \frametitle{Connecting iPlayer with Learning}
   %TODO
-  \missingfigure
+  \missingfigure{}
 \end{frame}
 \note{
   We can make use of more subtle and sophisticated links between things as
@@ -800,7 +800,7 @@
 \begin{frame}
   \frametitle{Presenting regional and local information}
   %TODO
-  \missingfigure
+  \missingfigure{}
 \end{frame}
 \note{
   Many companies like Google are vastly improving in the area of giving
@@ -817,7 +817,7 @@
 \begin{frame}
   \frametitle{Supporting domestic languages}
   %TODO
-  \missingfigure
+  \missingfigure{}
 \end{frame}
 \note{
   And finally, following on slightly from the BBC's obligation to bring
@@ -841,10 +841,108 @@
 
 % Section 5
 
+\begin{comment}
+  @startuml search_arch.png
+  
+  skinparam monochrome true
+  skinparam componentStyle uml2
+
+  [Web Browser] .d.> () HTTP
+
+  package "Web Application" {
+    [Search Results Pages] -u- HTTP
+  }
+
+
+  package "Data Layer" {
+
+    () "Query Interface" as query
+    () "Index Entrypoint" as entry
+    () "Index Interface" as index
+
+    [Search Results Pages] .d.> query
+    [Search Indexes] -u- query
+
+    [Search Indexes] -l- index
+    [Transformation Processes] .r.> index
+
+    [Transformation Processes] -u- entry
+
+  }
+
+  package "BBC Content Areas" {
+
+    [News Articles] ..> entry
+    [Programmes Information] ..> entry
+    [Sport Articles] ..> entry
+    [Blog Posts] ..> entry
+
+  }
+
+
+  @enduml
+\end{comment}
 \begin{frame}
   \frametitle{What does BBC Search look like?}
-  High-level diagram
+  \includegraphics[width=\linewidth]{search_arch.png}\\
 \end{frame}
+\note{
+  So, we have here a very, very abstract view of what a BBC search could look like. It oversimplifies
+  some aspects, but it gives a general overview of the approach to architecting an application
+  like this.
+
+  At the top we have a user's web browser. So the user is using Firefox, Safari, Internet Explorer, etc.
+  to interact with the BBC website and use the search pages. Those search results pages are served
+  by what is essentially the web application component. This is the part where the web developers
+  and designers work on the interface that the users will see, making the design as effective as
+  possible.
+
+  This application does not generate what those results are itself, but relies on calling
+  the search indexes through some kind of querying interface. In this way the web application
+  acts as a middle man that captures the search queries the user types into their web browser, hands them
+  off to the core search engine and then presents the results that come back in a way that's presented
+  as appropriately as possible for humans to read.
+
+  This is an example of the principle of \emph{separation of concerns} in software architecture. We
+  create separate applications to act as the search engine and the web application responsible for
+  interaction with users as they are distinct responsibilities or concerns.
+
+  Modular approaches
+  like this in software engineering mean, for example, we can create very different applications
+  further down the line that talk directly to the query interface and do very different things
+  with the search results. This could be a mobile app that provides a very different interface to
+  the main web site or another application altogether that uses the search engine as a data source,
+  but does very different things with the information. We don't always know what new features and
+  behaviours we will want to add to our software systems at a later date, so a modular approach
+  allows us to plug in new components as and when new requirements come up.
+
+  There is another component here that represents the transformation process pipeline that needs
+  to happen before items are sent to be indexed. This is grossly understating just how complex
+  this currently is -- and perhaps it may always remain complex due to the diverse nature of
+  BBC content -- but generalises the need to perform some alteration to content items before
+  sending them to the search engine indexes.
+
+  Clearly, a news article looks very different to a TV programme which is again very different
+  to a game aimed at children. These are all represented in respective data stores in
+  very different ways, but the search indexes need to understand what key words to use,
+  what the title of the item is and so on. There is much complex work in ensuring that very diverse
+  items like these all enter the search index in some common format and this can involve
+  several different applications all communicating over networks.
+
+  We will look at common architectural approaches for very complex applications, but first we will
+  focus on the design of the web application side. We can see here that we can group all
+  the search indexing and transformation applications into a data layer. In this way, we can
+  pretend for the moment that this very complex part of the whole search ecosystem -- which is
+  arguably a good 90-odd percent of the complexity -- is a standard data base. In some ways,
+  it has a lot of equivalence to a database: it stores information, there is an interface or
+  method by which we can put data into it and there is an interface for sending queries
+  to get particular subsets of that data later on.
+
+  So, pretending this is just a database and the search results pages are a standard, modern
+  web application, what exactly is a standard web application?
+}
+
+% Section 6
 
 \begin{frame}
   \frametitle{Model-View-Controller (MVC)}

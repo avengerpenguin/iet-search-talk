@@ -4,6 +4,7 @@ clean:
 	rm -f *.log *.aux *.pdf *.out *.nav *.dvi *.toc *.dot *.vrb *.snm bbc_search-dot2tex-*
 
 bbc_search.pdf:
+	plantuml bbc_search.tex
 	pdflatex --shell-escape bbc_search.tex
 
 pdf: bbc_search.pdf
