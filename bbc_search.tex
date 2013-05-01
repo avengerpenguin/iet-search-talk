@@ -946,18 +946,138 @@
 
 \begin{frame}
   \frametitle{Model-View-Controller (MVC)}
+  \centering
+  \includegraphics[width=3in]{mvc.png}\\
 \end{frame}
+\note {
+  Stepping back a bit to the general case of most web applications, a common software
+  architecture pattern is the so-called MVC or \emph{Model-View-Controller} pattern.
+
+  What is done here is to design some application code that represents the data
+  the application will use and name that the \emph{model}. This module or component
+  of a web application will provide an interface for other parts of the application
+  to retrieve data and manipulate it.
+
+  So, in a search application this could be the component that interfaces with the
+  search index itself and provides a way to send search queries to the indexes.
+
+  The part that actually receives requests from a user's web browser is known as
+  the \emph{controller}. In a web application, this component is responsible for
+  taking requests like submissions of forms or links that are clicked and turn
+  them into appropriate interactions with the model component. Again, in our
+  search application this may receive the fact that a user typed into a search
+  box on the website and pass that query to the model layer so it can send it
+  on to the search indexes.
+
+  This, in some ways, acts as a translation between
+  the Hypertext Transfer Protocol (HTTP) of the web and the model layer whilst
+  also providing
+  the ability to catch obvious problems such as the user having failed to type
+  in any text at all. The benefit of this separation of concerns again is that
+  the model component can be built in such a way that it doesn't concern itself
+  with what the web is or who interacts with it. So, if we had a need later on
+  to provide, say, a desktop search application that doesn't involve the web
+  at all, we can \emph{reuse} the code for the model component that interacts
+  with the search indexes and create different desktop application code
+  that uses it. Code \emph{reuse} is a very desirable goal in modular software
+  design and engineering.
+
+  The last component here is the \emph{view} which is essentially just how
+  the information is presented to the user. In our case, search results
+  are presented as a single web page listing all the results with titles,
+  perhaps thumbnail icons, links and so on. When the user then interacts with
+  things like links in that view, those interaction requests are passed back
+  around to the controller.
+
+  The view is then the part that the designers can tweak to be aesthetically
+  pleasing and user-friendly.
+
+  Note that in our search application, the controller is only asking the model
+  for results and doesn't alter the search indexes in any way. In a general
+  web application, such as Wikipedia, users can send requests to read and also
+  edit the data. This is not impossible for our search application as Google
+  provides buttons for people to ``plus one'' results that they felt were
+  relevant and thus improve searches for other people. In our MVC architecture,
+  such ``plus one'' or ``like'' requests would also go to the controller, who
+  then passes these interactions to the model, who will then send requests
+  to update the indexes with the popularity of those items.
+
+  One other concern of the controller, is that it might be able to take on
+  the role of storing the results of interactions with the model in a
+  temporary cache. With this, the controller can hold off bothering with the
+  model for the same, popular searches over and over again (e.g. the search
+  for Doctor Who now and again in 2 seconds by someone else is unlikely to
+  yield different results) and instead simply return a copy of the same view
+  shown to the last user to do the same search. Such approaches are essential
+  for any application with the significant amount of traffic the BBC gets.
+}
 
 \begin{frame}
   \frametitle{The problem of too many (or too few) databases}
-  Too many databases, single point of failure with one database (decoupling)
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  The MVC architecture has become so common that an organisation such
+  as the BBC will end up with multiple applications all built in this way
+  each with their own model, controller and view. This is fine for someone
+  building a small, single-purpose application for their business, but things
+  get complicated when we want things to share information across these applications.
+
+  So, again to simplify things quite a bit, we can consider a situation where
+  BBC News is its own MVC application, iPlayer is its own MVC application,
+  BBC Weather is its own MVC application and so on. This is not the full picture,
+  but it illustrates the problem clearly.
+
+  This suggests that news has a ``news'' databases and iPlayer has its own
+  database of programmes available to watch. So, if BBC Nature has its own
+  database of animals, plants, etc. where does it store information about
+  programmes you can watch on iPlayer related to nature? The options seem
+  to be that the nature database takes regular copies of all nature
+  programmes from iPlayer's database or that the BBC Nature web application
+  model component can send queries to both the nature database and the
+  iPlayer database at the same time and present the information combined
+  in however way it likes.
+
+  So, if we take the first option, we have a situation where there are
+  technically two copies of every nature programme's information. One copy
+  lives in the iPlayer database and one in the Nature database. There are
+  many reasons why duplicating data like this is problematic -- which could
+  probably be a whole talk in itself -- but the simplest problem is that
+  iPlayer decide to correct something small like a spelling mistake in 
+  a programme's synopsis, the Nature site might have a delay before it
+  receives the correction. Even worse, what if the process that is copying
+  the information stops working one day?
+
+  Modern software architecture tends to prefer to prevent synchronisation
+  problems from happening at all rather than constantly working around
+  the potential issues, so let's explore the second option where the BBC
+  Nature website has direct access to the iPlayer database itself.
+
+  The problems that arise here is now the iPlayer web developers cannot
+  restructure their database in any way without remembering to tell
+  the team working on BBC Nature, otherwise the BBC Nature web application
+  might be left trying to query database tables that no longer exist.
+
+  When one software system is unable to change without another one breaking,
+  we can call this a \emph{coupling} problem in that the two systems
+  are too \emph{tightly} coupled to each other. If the iPlayer team have to
+  keep a list of everyone who is using their database so they can remember
+  to tell them when they wish to change it, then they are clearly going to
+  be held back from making large changes to the iPlayer web application, which
+  is not good for anyone.
+
+}
 
 \begin{frame}
   \frametitle{``Service Layer''}
   \framesubtitle{Decouples the web application from the database}
   Decoupling, no need for database
 \end{frame}
+\note{
+  To this end, the BBC favours an architectural approach these days where all web
+  applications are split into at least two applications.
+}
 
 \begin{frame}
   \frametitle{Providing APIs for other service and applications}
