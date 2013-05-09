@@ -1012,10 +1012,23 @@
   for any application with the significant amount of traffic the BBC gets.
 }
 
+\begin{comment}
+  @startuml many_databases.png
+  
+  skinparam monochrome true
+  skinparam componentStyle uml2
+
+  [News Website] .d.> [News Database]
+  [iPlayer Website] .d.> [iPlayer Database]
+  [Nature Website] .d.> [Nature Database]
+  [Nature Website] .d.> [iPlayer Database]
+
+  @enduml
+\end{comment}
 \begin{frame}
-  \frametitle{The problem of too many (or too few) databases}
-  %TODO
-  \missingfigure{}
+  \frametitle{Too many databases}
+  \centering
+  \includegraphics[width=\linewidth]{many_databases.png}\\
 \end{frame}
 \note{
   The MVC architecture has become so common that an organisation such
@@ -1069,20 +1082,68 @@
 
 }
 
+\begin{comment}
+  @startuml service_layer.png
+  
+  skinparam monochrome true
+  skinparam componentStyle uml2
+
+  [Web Application] ..> [Service]
+  [Service] ..> [Database]
+
+  @enduml
+\end{comment}
 \begin{frame}
   \frametitle{``Service Layer''}
-  \framesubtitle{Decouples the web application from the database}
-  Decoupling, no need for database
+  \centering
+  \includegraphics[width=1.5in]{service_layer.png}\\
 \end{frame}
 \note{
-  To this end, the BBC favours an architectural approach these days where all web
-  applications are split into at least two applications.
+  Large organisations like the BBC are more likely to structure their web
+  applications like this. The web application itself responsible for
+  displaying pages and providing interaction for users communicates over
+  a network to another application known as a \emph{service}. These
+  service applications only provide data and information in a format
+  that can be read and interpreted by the web application, which in
+  turn displays that information.
+
+  This back end application can get its information from a database,
+  but the key advantage is that the web application doesn't need to
+  be concerned with details like that. All we need to ensure is
+  that the web application has an agreed way to communicate to the
+  service application and we have decoupled the user-facing web
+  application from the databases.
 }
 
+% Section 8
+
+\begin{comment}
+  @startuml service_crosstalk.png
+  
+  skinparam monochrome true
+  skinparam componentStyle uml2
+
+  [News Website] .d.> [News Service]
+  [News Service] .d.> [News Database]
+
+  [iPlayer Website] .d.> [iPlayer Service]
+  [iPlayer Service] .d.> [iPlayer Database]
+
+  [Nature Website] .d.> [Nature Service]
+  [Nature Service] .d.> [Nature Website]
+  [Nature Service] .d.> [iPlayer Service]
+
+  @enduml
+\end{comment}
 \begin{frame}
-  \frametitle{Providing APIs for other service and applications}
-  \framesubtitle{Application Programming Interface}
+  \frametitle{Services can communicate with each other}
+  \centering
+  \includegraphics[width=1.5in]{service_crosstalk.png}\\
 \end{frame}
+\note{
+  Where we really see the benefit is if we revisit the example
+  set of BBC websites from earlier.
+}
 
 \begin{frame}
   \frametitle{Service Orientated Architecture}
@@ -1098,6 +1159,8 @@
   \framesubtitle{Or the information producer needs a list of consumers to notify}
 \end{frame}
 
+% Section 9
+
 \begin{frame}
   \frametitle{Events}
 \end{frame}
@@ -1105,6 +1168,8 @@
 \begin{frame}
   \frametitle{Event-Driven Architecture}
 \end{frame}
+
+% Section 10
 
 \begin{frame}
   \frametitle{What does BBC Search service layer look like?}
@@ -1144,6 +1209,8 @@
   \framesubtitle{Can we generate them?}
 \end{frame}
 
+% Section 11
+
 \begin{frame}
   \frametitle{How do we search it all?}
 \end{frame}
@@ -1161,6 +1228,8 @@
 \begin{frame}
   \frametitle{What categories and facets can we offer?}
 \end{frame}
+
+% Section 12
 
 \begin{frame}
   \frametitle{How can we keep improving the experience?}
