@@ -12,7 +12,12 @@
 
 \title{Web Search and the BBC}
 \author{Ross Fenning}
-\institute{Senior Software Engineer\\Homepage, Search and Navigation\\Future Media\\BBC}
+\institute{
+  Senior Software Engineer
+  \\Homepage, Search and Navigation
+  \\Future Media
+  \\BBC
+}
 \date{23 May, 2013}
 
 \begin{document}
@@ -907,7 +912,7 @@
   further down the line that talk directly to the query interface and do very different things
   with the search results. This could be a mobile app that provides a very different interface to
   the main web site or another application altogether that uses the search engine as a data source,
-  but does very different things with the information. We don't always know what new features and
+ but does very different things with the information. We don't always know what new features and
   behaviours we will want to add to our software systems at a later date, so a modular approach
   allows us to plug in new components as and when new requirements come up.
 
@@ -1137,12 +1142,19 @@
 \end{frame}
 \note{
   Where we really see the benefit is if we revisit the example
-  set of BBC websites from earlier.
+  set of BBC websites from earlier. BBC Nature can use the
+  iPlayer service application to pull out any information it needs
+  about nature programming it could offer to visitors. The
+  iPlayer team are free to change their database any way they see fit
+  without fear of disrupting the BBC Nature website so long as
+  the iPlayer service keeps providing the specific interface
+  they needed.
 }
 
 \begin{frame}
   \frametitle{Service Orientated Architecture}
   \framesubtitle{Modularity and distributed computing}
+<<<<<<< HEAD
   %TODO
   \missingfigure{}
 \end{frame}
@@ -1152,6 +1164,57 @@
   %TODO
   \missingfigure{}
 \end{frame}
+=======
+  Hypotheical illustration of SOA:
+  \begin{center}
+    \begin{dot2tex}[dot,mathmode,scale=0.8]
+      digraph G {
+        rankdir=TB;
+        node [shape="circle"];
+        "E-commerce Website" -> Products
+        Products -> "Stock Levels"
+        "E-commerce Website" -> Orders
+        Orders -> Payments
+        "E-commerce Website" -> "Accounts"
+        "Accounts" -> Orders
+        Orders -> "Email Confirmation"
+      }
+    \end{dot2tex}
+  \end{center}
+\end{frame}
+\note{
+  What we're starting to head towards is the concept of
+  \emph{Service Oriented Architecture} or \emph{SOA}.
+  Very briefly, this is an architectural approach for building
+  large and complex software systems where what is actually
+  developed is a number of individual applications each performing
+  a single task only. The complexity of the system is then manifested
+  in the interoperation of these components.
+
+  In this simple example, we have an e-commerce website or online shop.
+  The website itself needs to query the products service to search
+  for products the shop has in its catalogue. It also queries a separate
+  stock levels application to get the latest stock count for each
+  product it displays. The website can also query the accounts service
+  to let a user view or change their details such as card numbers or
+  addresses. The accounts service queries the order database so it can
+  provide the website with that customer's order information as well.
+
+  The website sends orders the user has completed to the orders service,
+  which in turn uses the payments service to determine if the order
+  payment goes through. It then uses the email confirmation service to
+  send an email to the customer. The email confirmation service perhaps
+  even goes back to the accounts service to find the customer's email address
+  so it knows where to send the email.
+
+  These principles can be useful for a complex application such as
+  indexing all the BBC's online content for search. We have many different
+  services that already exist to access that content, but we need a series
+  of specific services that can pull in that content when it changes,
+  do any conversion, transformations or enhancements and then send it to 
+  the search indexes.
+}
+>>>>>>> 69072e6d8d5d46c2ca3868510e2e1ef71c30d49e
 
 \begin{frame}
   \frametitle{Information feeds have to be polled}
@@ -1159,126 +1222,527 @@
   %TODO
   \missingfigure{}
 \end{frame}
+\note{
+  So, we can poll, say, an iPlayer service application to see what programmes
+  have been added recently, what's appearing on TV soon and what's newly
+  available to watch on catch-up. We can query it, say, every 5 minutes and
+  send through any changes from the last five minutes into the search indexes.
+
+  The drawback to regularly polling like this is that there is already a five
+  minute delay between something becomming available and when someone
+  can actually find it via a search. We could try to reduce this by polling
+  every minute, but then we might find the majority of polls come back with
+  ``nothing new yet'' as a response. This could be a little inefficient if
+  we're sending traffic over a network with no new information. How much
+  traffic would be used if we were polling a hundred places every minute?
+
+  An obvious solution to this is to get the source application -- in our
+  example the iPlayer service -- to come and tell us when something has changed.
+  This means programming a feature into the iPlayer service such that
+  whenever it sees a new programme added, it sends a message over to some
+  search service application to keep us in the loop.
+
+  A problem with this is iPlayer might end up with 10, 20 or more other
+  applications that also want to be notified of changes. What happens
+  if the search service is broken and iPlayer is unable to send us the message?
+  Does their application fail because of a problem with ours? It seems
+  like the iPlayer service is spending more time being concerned about
+  whether everyone else is getting the messages rather than focus on its
+  own job of showing catch-up programmes to users, which is its primary goal.
+
+  This is again showing signs of tight coupling between the iPlayer service and
+  other services.
+
+  Can we do this in a more elegant a clean way?
+}
 
 % Section 9
 
 \begin{frame}
   \frametitle{Events}
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  Another approach to large software systems that evolves somewhat out
+  of service oriented archicture is based around the idea of an
+  \emph{event}. The term event here refers to the abstract idea
+  that \emph{something is happened} and moreover it is likely some part
+  of the system as a whole is interested in being told when that event
+  happens.
+
+  So, to go back to iPlayer as an example, the fact a new programme has
+  become available for watching on catch-up could be seen as one kind
+  of event. Instead of the iPlayer service having to send messages to
+  everyone interested in that event, a better approach could be if
+  they have some way with which they can simply announce or publish the
+  fact that this event has happened. Then if someone is interested in
+  knowing when programmes become available, for example the search
+  indexes, they can listen out for those announcements or subscribe to
+  them in some way.
+
+  This is not too dissimilar to following someone on Twitter or subscribing
+  to a blog on the web. A user of Twitter can post a message (or Tweet)
+  without specifically being concerned with ensuring it gets to everyone
+  and people that have chosen to follow that user will see that message
+  appear in front of them. If you want to receive updates from a particular
+  person, you follow them, if you do not want to hear from them, you cease
+  following them. This is entirely in the hands of the receiver of the message
+  and doesn't require either constantly watching/polling someone's messages
+  nor the publisher having to go through a list of all subscribers and send
+  them the message directly.
+}
 
 \begin{frame}
   \frametitle{Event-Driven Architecture}
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  The concept of events, systems that publish them and systems that subscribe
+  to them is known as \emph{Event-driven Architecture} or EDA.
+
+  Event-driven systems can be as simple sa a burgular alarm where a sensor
+  raise an event that a window is open or that movement is detected and
+  the alarm component listens for those events and raises an alarm if wishes.
+
+  In the context of indexing BBC online content, we could have a system
+  where iPlayer, News, Sport, Nature, GCSE Bitesize, CBBC, CBeebies and
+  everyone else raises an event when any information is added, changed
+  or removed from their respective websites. Our search application system
+  could subscribe to all of those events and update the search indexes
+  where appropriate. This is a very idealised view of how an organisation
+  with a lot of content could work and in reality every system differs and
+  this will not always be possible, but the principles are certainly
+  beneficial if applied in the right places.
+
+  The greatest benefit of EDA is that if one service simply publishes
+  events of interest for zero, one or many subscribers to follow, but
+  without knowing who those subscribers are, then we have achieved truly
+  decoupled applications. The iPlayer service can publish the event to
+  say that something has changed then get back to working on its
+  primary function. It is not burdened with other services that also
+  want that information nor affected if those services break in any way.
+
+  It is then our responsibility to build search applications that follow
+  those events of changes across all BBC content and design them in such
+  a way that if our system does fail in any way, it can pick up where it
+  left off when we get it working again -- much like catching up on email
+  or your Twitter feed if you've been away for a while.
+}
 
 % Section 10
 
 \begin{frame}
-  \frametitle{What does BBC Search service layer look like?}
+  \frametitle{What could BBC Search service layer look like?}
+  Example view of BBC Search index service applications:
+  \begin{center}
+    \begin{dot2tex}[dot,mathmode,scale=0.8]
+      digraph G {
+        rankdir=LR;
+        node [shape="circle"];
+        News -> "CMS A"
+        Sport -> "CMS A"
+        CBBC -> "CMS B"
+        CBeebies -> "CMS B"
+        Programmes -> "CMS B"
+        Programmes -> "CMS C"
+        "CMS A" -> "Search Entry Point A"
+        "CMS B" -> "Search Entry Point B"
+        "CMS C" -> "Search Entry Point C"
+        "Search Entry Point A" -> "Transformer A"
+        "Search Entry Point B" -> "Transformer B"
+        "Search Entry Point C" -> "Transformer C"
+        "External Information" -> "Transformer A"
+        "Transformer A" -> "Search Indexer"
+        "Transformer B" -> "Search Indexer"
+        "Transformer C" -> "Search Indexer"
+      }
+    \end{dot2tex}
+  \end{center}
 \end{frame}
+\note{
+  So, briefly we can see an overview of how we can multiple services
+  applications aggregating content from all over the BBC such that all
+  of it ends up on the search indexes so that visitors can search for any
+  of them.
 
-\begin{frame}
-  \frametitle{Different data stores or Content Management Systems (CMS)}
-\end{frame}
+  Each of the different areas of BBC online put their information into
+  different \emph{content manangement systems} or CMSes. These are
+  essentially databases and applications dedicated to storing and managing
+  content for people such as articles, videos, images, etc. Some BBC websites
+  share the same system for storing their content and some use different ones.
+  A lot of the variation is due to the number of years behind each of these
+  projects working separately and not necessarily for functional reasons. The
+  recent view is to get as much as possible into the same storage location, but
+  this is not something that will happen overnight.
+
+  So, for each location where there might be content worth surfacing in
+  search results, we need some entry point where that content enters
+  the search indexing application. I've given them generic names here, but
+  this could be the search application pollng for changes as described earlier
+  or that CMS publishing an event of that change.
+
+  The content is going to come out of each system in that systems format,
+  which is likey going to need some transformation to convert it to the
+  format we need for search and finally it all gets sent into the common
+  search indexes.
+
+  This is a simplistic view. The transformation for CMS C, say, might be
+  very simple, but the transformation for CMS A could involve a lot of
+  further services. Note that I've shown here some external information
+  from another source that could be fed into the transformation of items
+  from CMS A, which perhaps could enhance the item further. An example of this
+  could be that while a News article tells us it's Barack Obama, we might
+  then look up in some resource for further information around Barack Obama
+  -- perhaps synonyms such as American President -- so we can allow people
+  to search using that extra information and not what was literally
+  within the article itself.
+}
 
 \begin{frame}
   \frametitle{Indexing programmes information}
   \framesubtitle{Structured data}
+  \centering
+  \includegraphics[width=\linewidth]{programmes_onotology.png}
 \end{frame}
+\note{
+  We can take a quick look at different kinds of content the BBC has and why
+  they present their own unique challenge.
+
+  Here, we have the ontology that has been put together to describe
+  TV and Radio programmes. Briefly, we have a brand which describes the name
+  of a whole programme across all series, e.g. Doctor Who or Holby City.
+
+  Each brand will have a number of series and each series will have a
+  number of episodes. This isn't too difficult, but in terms of search, it's
+  a fairly open question as to what happens if someone searches
+  ``Doctor Who''. Do we present the home page for the Doctor Who programme?
+  Do we offer the latest episode on iPlayer to watch on catch-up? Do we offer
+  the last episode to be broadcast, even if it's an older one that was
+  repeated?
+
+  As a search application, we need to start to understand the programme data
+  so we can think about how we react best to user queries.
+
+  The data structure goes further to capture what channel it went out on
+  and whether it's available to watch on a PC, on a games console such as
+  Playstation 3 or on a mobile. If you search for Merlin, do you want
+  the original version or the audio described for blind people? If I'm on
+  a smartphone and I get search results telling me what I can watch on catch-up
+  on a PC, but half of them aren't available on my phone, is that useful?
+
+  The main point here is that programmes are what we'd call very
+  \emph{structured} data. There are a lot of different kinds of objects --
+  brands, series, episodes, channels, devices, etc. -- and they relate to
+  each other in a very defined way. This is contrasted to, say, News which
+  is more like a large body of articles, each in a single category, but
+  there is little complexity on top of that.
+
+  With structured data such as programmes, we need to think very carefully
+  about how we plan to store them in the search indexes and how we plan
+  for users to find that information with queries.
+}
 
 \begin{frame}
   \frametitle{How do we know if a programme is available on iPlayer?}
   \framesubtitle{7-day window}
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  Just to throw an extra piece of complexity in to the mix, iPlayer has
+  a very specific feature in that programmes are available to watch on
+  catch-up generally only 7 days after the programme aired. This means
+  that just because a programme episode exists, doesn't mean someone
+  can watch it on iPlayer right now. So, if someone searches for Newsnight,
+  do we show them only the ones that can actually be watched or do
+  we give all information on even the historic episodes no longer
+  viewable? Clearly, we want to give the choice to the user, but it has
+  to be considered. Currently, if you search within the iPlayer site, you can
+  only find episodes that are available to watch.
+
+  This adds an extra piece of information we need to know from iPlayer: we
+  do not just want to know when a new programme is added to the database,
+  but we need to know between which dates we should be telling people they
+  are able to watch it on iPlayer.
+}
 
 \begin{frame}
   \frametitle{Indexing News and Sport stories}
   \framesubtitle{Rapidly-published, text content}
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  As mentioned, News and Sport are less structured content items in that they
+  are just a collection of articles, perhaps with a date. They are
+  put into categories normally, but this is still far less complex than
+  iPlayer and programmes information.
+
+  What makes them more interesting is that they will be published very quickly
+  if a major story is just breaking, updated quickly if corrections are to
+  be made or the story develops and perhaps even removed quickly if there
+  are legal complications.
+
+  This puts a pressure on the search application to ensure it picks up
+  new, changed and removed stories very quickly and reflect those changes
+  to the public as quickly as possible.
+
+  An emerging idea around news and sport is to be able to tag them with
+  topics and concepts mentioned therein. This is still not widespread on
+  all articles, but it adds an extra ability for search to be able to know
+  that, say, all articles relating to the Syrian civil war are related to the
+  same topic. Perhaps if all articles are tagged with their topics, we could
+  allow searching of concepts, topics, people and events and show the latest
+  related articles rather than just searching the articles themselves? For
+  example, I can search ``EU'' and get every article that mentioms the EU or
+  the European Union, but perhaps if the journalists have tagged which articles
+  are specifically ``about'' the EU, I can instead get a quick summary of the
+  latest news about the EU.
+}
 
 \begin{frame}
   \frametitle{Indexing Children's games, Bitesize, etc.}
-  \frametitle{Content vs. pages}
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  A lot of content for children includes games. This is an interesting
+  challenge as there's no textual information other than the game's
+  title. This is challenge for a tradtional web search where you're working
+  with keywords found in a page of text.
+}
 
 \begin{frame}
   \frametitle{Web Crawling}
   \framesubtitle{Older pages, mothballed sites, etc.}
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  Whilst we would prefer to get all BBC content information directly
+  from the sources, there's some cases where we still have to run a
+  Google-style web crawler over our own site to find everything. There
+  are a lot of sites that are simply not maintained any more that people
+  may still want to find.
 
-\begin{frame}
-  \frametitle{Items with no tags}
-  \framesubtitle{Can we generate them?}
-\end{frame}
+  One example is BBC Gardening. The site is no longer actively kept up
+  to date and if we have trouble trying to get at the information, there
+  is no team of employees we can contact for help. The only way we can
+  present that information is to run a web crawler and just index what
+  we can find.
+}
 
 % Section 11
 
 \begin{frame}
   \frametitle{How do we search it all?}
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  Assuming we've got all this content indexed in the search application and
+  it's being continuously updated as it should be, how do we best search it all?
+
+  At the simplest level, we can do the usual search techniques mentioned
+  earlier: we can find items that match keywords in a query. Currently,
+  we break down the different ``kinds'' of content into separate zones and
+  don't attempt to present a single results list as Google would, but perhaps
+  we can get it down into one list? This would not be without its own problems
+  however.
+}
 
 \begin{frame}
   \frametitle{Searching different types of content}
   \framesubtitle{Comparing apples and oranges}
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  If I search for Doctor Who, is it better to give me a news article that
+  mentions that phrase a lot or the latest episode to watch on iPlayer? Given
+  that the programme synopsis might only mention the phrase once and the
+  news article might mention it a lot, a traditional search algorithm might
+  prefer the news article. This is where we need to get clever with the deep
+  knowledge we have of our own content and try to ensure the top results
+  are for the right kind of thing.
 
-\begin{frame}
-  \frametitle{Some things have lots of text}
-  \framesubtitle{Some things have no text}
-\end{frame}
-
-\begin{frame}
-  \frametitle{What categories and facets can we offer?}
-\end{frame}
+  It's just a challenge when you try to mix apples and oranges like this, just
+  as you couldn't tell me which was longer between a metre and a kilogram, it's
+  hard to say which is more relevant between a documentary about volcanoes
+  and the GCSE Geography pages that teach about them. I'm not saying we have
+  all the answers right now, but it's an interesting challenge for the next
+  few years.
+}
 
 % Section 12
 
 \begin{frame}
   \frametitle{How can we keep improving the experience?}
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  The public aren't usually excited by a well-architected search application
+  that works perfectly, so whilst it is our goal to get a lot of the
+  behind-the-scenes stuff working, we will eventually be looking at how to
+  make the search application a friendly, usable and useful application for
+  website visitors that choose to use it.
+
+  One important aspect of any modern web application or website is how to
+  take feedback from users and provide continuous improvement to the product
+  to make it better all the time. This is where web applications really
+  differ from physical engineering in that you can't just sell it and
+  then maintain it later, but it needs to be an evolutionary approach
+  that consistently reacts to what's working and what's not, dropping the latter
+  and looking to improve the former.
+
+  To finish off, I will quickly look at how any modern web site will seek
+  continuous improvement, including BBC Search.
+}
 
 \begin{frame}
   \frametitle{Analytics}
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  Any serious web application will be tracking analytics information about
+  how the site is used and how the visitors behave. At the simplest level, we
+  could track what users search for and what link they then go on to click.
+  If people are always clicking result number 3 for a certain search, then
+  perhaps that results number 3 actually needs to be number one?
+
+  The example here shows a dashboard from Google's Analytics application
+  for webmasters to track how their sites are used. At the BBC, have bought
+  in a commercial application and don't use Google, but the principles are
+  very similar.
+
+  Overall, you're looking to track as many statistics about your visitors as
+  possible and then try to see what insights you can derive from them.
+  Generally, I think this is a solid starting point for doing any kind of
+  improvement of your website as without stats, it's hard to say whether
+  changes you make increase or reduce the users that come to you.
+}
 
 \begin{frame}
   \frametitle{Popular searches}
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  So, if we're tracking statistis about what people are searching, then
+  perhaps we can generate a list of what are very popular searches right now.
+  Some things are always popular such as popular programmes or sport teams, but
+  some are popular only for a short period such as ``riots'' back when the
+  riots kicked off in London and other parts of England in 2011.
+
+  An easy improvement might be to preempt people searching for very popular
+  things by providing quick links to popular items such as the Doctor Who
+  homepage or News pages summarising an ongoing news event such as riots. Of
+  course, we can only provide such a feature if we've used something like
+  analytics to find out what those popular searches are.
+
+  What's more difficult especially is providing popular links for events that
+  have just become popular in the last few hours or even minutes. It's all
+  very easy to have someone making a monthly report on what's popular in the
+  long term, but a more dynamic search system would take feedback directly
+  from the analytics system and start promoting or boosting things that
+  appear to be popular exactly when the trend begins to happen.
+}
 
 \begin{frame}
   \frametitle{TV/Radio Broadcasts}
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  If you search for an older programme such as Dad's Army, maybe you are
+  looking for some pages to tell you information about the programme. However,
+  if BBC Two has just happened to have put out an episode on repeat last night,
+  then maybe you were actually looking to watch that episode on iPlayer because
+  you missed it.
+
+  An example like this shows how BBC Search could be -- but currently isn't --
+  sensitive to the TV and Radio schedules. There is a bit of a disconnect
+  between the TV world and the BBC online world because we obviously work in
+  very different arenas, but this is one example where sharing that information
+  could be a benefit to the BBC website users.
+}
 
 \begin{frame}
   \frametitle{Responding to major events}
-  Riots, snow
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  I mentioned this briefly when talking about analytics, but it highlighted
+  a general need for the search to react when there's something big
+  happening in the world or the country.
 
-\begin{frame}
-  \frametitle{``Obvious'' Ordering of things}
-  Manchester United, Man City, Manchester
-\end{frame}
+  This is not just news events such as riots or an election, but could be
+  weather events such as lots of snow. When someone is searching for snow
+  in the Summer, they might be looking for the educational materials
+  on precipitation, but if we happen to know it's in the midst of nationwide
+  reports of heavy snow and travel warnings, that people are actually looking
+  to see what alerts and travel warnings there are for their area.
+}
 
 \begin{frame}
   \frametitle{Awareness of time of day...}
   \framesubtitle{... or day of the week}
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  Is a query for football different on a Saturday afternoon to a Monday
+  morning? Are people's searches different at 10am as they are at 10pm?
+  I don't really have specific answers to this right now, but time-sensitive
+  searches could well be an area worth exploring.
+}
 
 \begin{frame}
   \frametitle{Location Awareness}
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  If I just search for ``weather'' it's a bit ambiguous as to what region's
+  weather I want. Modern smartphones, web browsers, etc. allow ways for a
+  user to tell a website where they are exactly and such information could
+  be used to factor into a search query.
 
-\begin{frame}
-  \frametitle{User Testing}
-\end{frame}
+  So, if a user has previously said they are in Edinburgh and they search
+  weather, I can give them Edinburgh weather. I can also give local news
+  headlines if they are just looking for news. If they search for football,
+  I can know to prefer Scottish leagues and the Scottish national side over
+  English league articles.
+}
 
 \begin{frame}
   \frametitle{Social Media}
   Trends on Twitter, shares on Facebook
+  %TODO
+  \missingfigure{}
 \end{frame}
+\note{
+  These days people like to share links to things they find interesting
+  on sites such as Faceook. This is another way to tell if an items is
+  particular popular. Similarly to getting stats from the analytics, can
+  we feed in information dynamically from these social network sites to
+  boost things in the search results we know people are very keen to read
+  or watch, so much so that they then pass it on to their friends?
+}
 
 \begin{frame}
   \frametitle{The Future}
-  Solve all the problems raised
+  \begin{itemize}
+    \pause \item Rebuild some of the backend technology
+    \pause \item Rebuild the search results pages
+    \pause \item Keep finding the best ways to improve the experience for the users
+  \end{itemize}
+  \missingfigure{}
 \end{frame}
 
 \end{document}
