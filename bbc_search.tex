@@ -1125,15 +1125,15 @@
   [iPlayer Service] .d.> [iPlayer Database]
 
   [Nature Website] .d.> [Nature Service]
-  [Nature Service] .d.> [Nature Website]
-  [Nature Service] .d.> [iPlayer Service]
+  [Nature Service] .r.> [iPlayer Service]
+  [Nature Service] .d.> [Nature Database]
 
   @enduml
 \end{comment}
 \begin{frame}
   \frametitle{Services can communicate with each other}
   \centering
-  \includegraphics[width=1.5in]{service_crosstalk.png}\\
+  \includegraphics[width=\linewidth]{service_crosstalk.png}\\
 \end{frame}
 \note{
   Where we really see the benefit is if we revisit the example
@@ -1143,15 +1143,21 @@
 \begin{frame}
   \frametitle{Service Orientated Architecture}
   \framesubtitle{Modularity and distributed computing}
+  %TODO
+  \missingfigure{}
 \end{frame}
 
 \begin{frame}
   \frametitle{Problems when service interfaces change}
+  %TODO
+  \missingfigure{}
 \end{frame}
 
 \begin{frame}
   \frametitle{Information feeds have to be polled}
   \framesubtitle{Or the information producer needs a list of consumers to notify}
+  %TODO
+  \missingfigure{}
 \end{frame}
 
 % Section 9
