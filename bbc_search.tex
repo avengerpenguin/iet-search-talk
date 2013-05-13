@@ -409,14 +409,17 @@
 \begin{frame}
   \frametitle{Scoring}
   \framesubtitle{tf-idf}
+  \pause
   \begin{equation}
     \mathrm{tf}(t,d) = \frac{\mathrm{f}(t, d)}{\max\{\mathrm{f}(w, d):w \in d\}}
   \end{equation}
   \vfill
+  \pause
   \begin{equation}
     \mathrm{idf}(t, D) =  \log \frac{|D|}{|\{d \in D: t \in d\}|}
   \end{equation}
   \vfill
+  \pause
   \begin{equation}
     \mathrm{tfidf}(t,d,D) = \mathrm{tf}(t,d) \times \mathrm{idf}(t, D)
   \end{equation}
@@ -487,10 +490,12 @@
   \frametitle{Search Design Patterns}
   \includegraphics[width=\linewidth]{search_box.png}\\
   \vfill
-  \tiny
-  1-02. The iconic search box by Peter Morville\\
-  http://www.flickr.com/photos/morville/4273476651/\\
-  Attribution-NonCommercial License
+  \begin{flushright}
+    \tiny
+    1-02. The iconic search box by Peter Morville\\
+    http://www.flickr.com/photos/morville/4273476651/\\
+    Attribution-NonCommercial License
+  \end{flushright}
 \end{frame}
 \note{
   So, we've looked at the technical and mathematical side of finding
@@ -510,10 +515,12 @@
   \frametitle{Standard Search Interface}
   \includegraphics[width=\linewidth]{search_overview.png}\\
   \vfill
-  \tiny
-  2-09. Anatomy of a SERP by Peter Morville\\
-  http://www.flickr.com/photos/morville/4274260680/\\
-  Attribution-NonCommercial License
+  \begin{flushright}
+    \tiny
+    2-09. Anatomy of a SERP by Peter Morville\\
+    http://www.flickr.com/photos/morville/4274260680/\\
+    Attribution-NonCommercial License
+  \end{flushright}
 \end{frame}
 \note{
   We can see here the standard search interface common to most search
@@ -544,10 +551,12 @@
   \frametitle{Autocomplete}
   \includegraphics[width=\linewidth]{autocomplete.png}\\
   \vfill
-  \tiny
-  4-02. Autocomplete in Google and Firefox by Peter Morville\\
-  http://www.flickr.com/photos/morville/4274337384/\\
-  Attribution-NonCommercial License
+  \begin{flushright}
+    \tiny
+    4-02. Autocomplete in Google and Firefox by Peter Morville\\
+    http://www.flickr.com/photos/morville/4274337384/\\
+    Attribution-NonCommercial License
+  \end{flushright}
 \end{frame}
 \note{
   A common feature of search systems is an autocomplete. This is commonly
@@ -562,10 +571,12 @@
   \frametitle{Autosuggest}
   \includegraphics[width=\linewidth]{autosuggest.png}\\
   \vfill
-  \tiny
-  4-03. Autocomplete and autosuggest by Peter Morville\\
-  http://www.flickr.com/photos/morville/4274337410/\\
-  Attribution-NonCommercial License
+  \begin{flushright}
+    \tiny
+    4-03. Autocomplete and autosuggest by Peter Morville\\
+    http://www.flickr.com/photos/morville/4274337410/\\
+    Attribution-NonCommercial License
+  \end{flushright}
 \end{frame}
 \note {
   Autosuggest is a feature similar to, but subtly distinct from autocomplete.
@@ -615,10 +626,12 @@
 \begin{frame}
   \frametitle{Facets}
   \includegraphics[width=\linewidth]{facets.png}\\
-  \tiny
-  Volkswagen UK by Peter Morville\\
-  http://www.flickr.com/photos/morville/2367217412/\\
-  Attribution-NoDerivs License
+  \begin{flushright}
+    \tiny
+    Volkswagen UK by Peter Morville\\
+    http://www.flickr.com/photos/morville/2367217412/\\
+    Attribution-NoDerivs License
+  \end{flushright}
 \end{frame}
 \note{
   Sometimes the results we get back might be quite generic across multiple
@@ -634,8 +647,7 @@
 
 \begin{frame}
   \frametitle{Localisation}
-  %TODO
-  \missingfigure{}
+  \includegraphics[width=\linewidth]{local_restaurants.png}\\
 \end{frame}
 \note{
   In all of the search techniques shown so far, what should happen if I search
@@ -663,8 +675,7 @@
 
 \begin{frame}
   \frametitle{Advanced Search}
-  %TODO
-  \missingfigure{}
+  \includegraphics[width=\linewidth]{google_advanced_search.png}\\
 \end{frame}
 \note{
   This is a common search feature that might be questionable to the
@@ -683,21 +694,6 @@
   even offer ``advanced search'' as a feature. Despite that,
   many other websites offer an ``advanced search'' link that offers
   up a more powerful form for very precise queries.
-}
-
-\begin{frame}
-  \frametitle{Similar}
-  \framesubtitle{``More like this''}
-  %TODO
-  \missingfigure{}
-\end{frame}
-\note{
-  The last pattern I'll cover here is the idea of presenting users
-  with ``more like this''. This is most notably used by Amazon for directing
-  users to products that they might be interested in, not because they
-  searched specifically for terms that match those products, but because
-  products that \emph{did} match their search are similar to other ones
-  they might wish to buy.
 }
 
 % Section 4
@@ -1160,11 +1156,11 @@
       digraph G {
         rankdir=TB;
         node [shape="circle"];
-        "E-commerce Website" -> Products
+        "Ecommerce Website" -> Products
         Products -> "Stock Levels"
-        "E-commerce Website" -> Orders
+        "Ecommerce Website" -> Orders
         Orders -> Payments
-        "E-commerce Website" -> "Accounts"
+        "Ecommerce Website" -> "Accounts"
         "Accounts" -> Orders
         Orders -> "Email Confirmation"
       }
