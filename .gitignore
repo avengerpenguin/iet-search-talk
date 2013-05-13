@@ -31,4 +31,5 @@
 *.xdy
 *.tdo
 /bbc_search.pdf
-*-dot2tex-fig1.dot
+*-dot2tex-fig*.dot
+*-dot2tex-fig*.tex
