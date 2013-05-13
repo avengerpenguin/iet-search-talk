@@ -702,10 +702,8 @@
   \frametitle{Why BBC Search?}
   \framesubtitle{Isn't Google good enough?}
   \begin{itemize}
-    \item We can search the BBC via Google
-    \item What can the BBC offer that Google cannot?
-    \item Knowledge Graph
-    \item BBC Domain Knowledge
+    \pause \item We can search the BBC via Google
+    \pause \item What can the BBC offer that Google cannot?
   \end{itemize}
 \end{frame}
 \note{
@@ -725,11 +723,6 @@
   words ``question'' and ``time'' but Google doesn't have the insight
   to know that ``Question Time'' is the exact title of programme produce
   by the BBC.
-
-  Firstly, this is now somewhat misleading in that Google has recently
-  released a feature known as ``Knowledge Graph'' in which it attempts to
-  understand concepts and present snippets on the side. Secondly, this
-  feature still doesn't understand that ``Question Time'' is a concept.
 }
 
 \begin{frame}
@@ -1150,20 +1143,17 @@
 \begin{frame}[fragile]
   \frametitle{Service Orientated Architecture}
   \framesubtitle{Modularity and distributed computing}
-  Hypotheical illustration of SOA:
   \begin{center}
-    \begin{dot2tex}[dot,mathmode,scale=0.8]
+    \begin{dot2tex}[circo,mathmode,scale=0.7]
       digraph G {
-        rankdir=TB;
+        rankdir=LR;
         node [shape="circle"];
-        "Ecommerce Website" -> Products
-        Products -> "Stock Levels"
-        "Ecommerce Website" -> Orders
-        Orders -> Payments
-        "Ecommerce Website" -> "Accounts"
-        "Accounts" -> Orders
-        Orders -> "Email Confirmation"
-      }
+        A -> B
+        B -> C
+        C -> D
+        D -> A
+        D -> E
+        D -> F
     \end{dot2tex}
   \end{center}
 \end{frame}
@@ -1319,12 +1309,12 @@
 
 \begin{frame}[fragile]
   \frametitle{What could BBC Search service layer look like?}
-  Example view of BBC Search index service applications:
+  \framesubtitle{At a very abstract level}
   \begin{center}
-    \begin{dot2tex}[dot,mathmode,scale=0.8]
+    \begin{dot2tex}[dot,scale=0.45]
       digraph G {
         rankdir=LR;
-        node [shape="circle"];
+        node [shape="box"];
         News -> "CMS A"
         Sport -> "CMS A"
         CBBC -> "CMS B"
@@ -1726,7 +1716,6 @@
     \pause \item Rebuild the search results pages
     \pause \item Keep finding the best ways to improve the experience for the users
   \end{itemize}
-  \missingfigure{}
 \end{frame}
 
 \end{document}
