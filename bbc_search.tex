@@ -1187,8 +1187,17 @@
 \begin{frame}
   \frametitle{Information feeds have to be polled}
   \framesubtitle{Or the information producer needs a list of consumers to notify}
-  %TODO
-  \missingfigure{}
+  \begin{itemize}
+    \pause \item We can ask, say, iPlayer every hour for any changes
+    \pause \item Although, this means up to an hour delay
+    \pause \item So, we can poll every minute instead
+    \pause \item But how much useless network traffic does that cause?
+    \pause \item So, what if we get iPlayer to tell us when something changes?
+    \pause \item But what if 20 other people want to do the same?
+    \pause \item And why should iPlayer spend so much time being concerned with other services?
+    \pause \item This is tight coupling
+    \pause \item Can we do this more elegantly?
+  \end{itemize}
 \end{frame}
 \note{
   So, we can poll, say, an iPlayer service application to see what programmes
@@ -1228,14 +1237,19 @@
 
 \begin{frame}
   \frametitle{Events}
-  %TODO
-  \missingfigure{}
+  \begin{itemize}
+    \pause \item Programme has become available to watch
+    \pause \item Tweet has been posted
+    \pause \item The sun has risen
+    \pause \item Movement has been detected in the living room
+    \pause \item The time is 2pm
+  \end{itemize}
 \end{frame}
 \note{
   Another approach to large software systems that evolves somewhat out
   of service oriented archicture is based around the idea of an
   \emph{event}. The term event here refers to the abstract idea
-  that \emph{something is happened} and moreover it is likely some part
+  that \emph{something has happened} and moreover it is likely some part
   of the system as a whole is interested in being told when that event
   happens.
 
@@ -1299,7 +1313,7 @@
   or your Twitter feed if you've been away for a while.
 }
 
-% Section 1
+% Section 10
 
 \begin{frame}[fragile]
   \frametitle{What could BBC Search service layer look like?}
