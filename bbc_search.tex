@@ -995,23 +995,28 @@
   for any application with the significant amount of traffic the BBC gets.
 }
 
-\begin{comment}
-  @startuml many_databases.png
-  
-  skinparam monochrome true
-  skinparam componentStyle uml2
-
-  [News Website] .d.> [News Database]
-  [iPlayer Website] .d.> [iPlayer Database]
-  [Nature Website] .d.> [Nature Database]
-  [Nature Website] .d.> [iPlayer Database]
-
-  @enduml
-\end{comment}
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Too many databases}
-  \centering
-  \includegraphics[width=\linewidth]{many_databases.png}\\
+  \begin{center}
+    \begin{dot2tex}[pgf,dot,scale=0.6]
+      digraph G {
+        rankdir=TB;
+
+        news_www [shape=note,label="News Website"]
+        iplayer_www [shape=note,label="iPlayer Website"]
+        nature_www [shape=note,label="Nature Website"]
+
+        news_db [shape=box3d,label="News Database"]
+        iplayer_db [shape=box3d,label="iPlayer Database"]
+        nature_db [shape=box3d,label="Nature Database"]
+
+        news_www -> news_db
+        iplayer_www -> iplayer_db
+        nature_www -> nature_db
+        nature_www -> iplayer_db
+
+    \end{dot2tex}
+  \end{center}
 \end{frame}
 \note{
   The MVC architecture has become so common that an organisation such
@@ -1065,21 +1070,22 @@
 
 }
 
-\begin{comment}
-  @startuml service_layer.png
-  
-  skinparam monochrome true
-  skinparam componentStyle uml2
-
-  [Web Application] ..> [Service]
-  [Service] ..> [Database]
-
-  @enduml
-\end{comment}
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{``Service Layer''}
-  \centering
-  \includegraphics[width=1.5in]{service_layer.png}\\
+  \begin{center}
+    \begin{dot2tex}[pgf,dot,scale=0.6]
+      digraph G {
+        rankdir=TB;
+
+        www [shape=note,label="Web Application"]
+        service [shape=circle,label="Service"]
+        database [shape=box3d,label="Database"]
+
+        www -> service
+        service -> database
+
+    \end{dot2tex}
+  \end{center}
 \end{frame}
 \note{
   Large organisations like the BBC are more likely to structure their web
@@ -1100,28 +1106,45 @@
 
 % Section 8
 
-\begin{comment}
-  @startuml service_crosstalk.png
-  
-  skinparam monochrome true
-  skinparam componentStyle uml2
-
-  [News Website] .d.> [News Service]
-  [News Service] .d.> [News Database]
-
-  [iPlayer Website] .d.> [iPlayer Service]
-  [iPlayer Service] .d.> [iPlayer Database]
-
-  [Nature Website] .d.> [Nature Service]
-  [Nature Service] .r.> [iPlayer Service]
-  [Nature Service] .d.> [Nature Database]
-
-  @enduml
-\end{comment}
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Services can communicate with each other}
-  \centering
-  \includegraphics[width=\linewidth]{service_crosstalk.png}\\
+  \begin{center}
+    \begin{dot2tex}[pgf,dot,scale=0.6]
+      digraph G {
+        rankdir=TB;
+
+        {
+          rank=same
+          news_www [shape=note,label="News Website"]
+          iplayer_www [shape=note,label="iPlayer Website"]
+          nature_www [shape=note,label="Nature Website"]
+        }
+        
+        {
+          rank=same
+          news_service [shape=circle,label="News\nService"]
+          iplayer_service [shape=circle,label="iPlayer\nService"]
+          nature_service [shape=circle,label="Nature\nService"]
+        }
+
+        {
+          rank=same
+          news_db [shape=box3d,label="News Database"]
+          iplayer_db [shape=box3d,label="iPlayer Database"]
+          nature_db [shape=box3d,label="Nature Database"]
+        }
+
+        news_www -> news_service
+        iplayer_www -> iplayer_service
+        nature_www -> nature_service
+
+        nature_service -> iplayer_service
+
+        news_service -> news_db
+        iplayer_service -> iplayer_db
+        nature_service -> nature_db
+    \end{dot2tex}
+  \end{center}
 \end{frame}
 \note{
   Where we really see the benefit is if we revisit the example
@@ -1148,6 +1171,7 @@
         D -> A
         D -> E
         D -> F
+      }
     \end{dot2tex}
   \end{center}
 \end{frame}
@@ -1275,12 +1299,27 @@
   them the message directly.
 }
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Event-Driven Architecture}
-  %TODO
-  \missingfigure{}
+  \begin{center}
+    \begin{dot2tex}[pgf,dot,scale=0.7]
+      digraph G {
+        rankdir=LR;
+        node [shape="circle"];
+        bus [shape=note, label="Event List"]
+
+        A -> bus [label="sends event"]
+        B -> bus [label="sends event"]
+
+        bus -> C [label="subscribes to event"]
+        bus -> D [label="subscribes to event"]
+        bus -> E [label="subscribes to event"]
+
+      }
+    \end{dot2tex}
+  \end{center}
 \end{frame}
-\note{
+  \note{
   The concept of events, systems that publish them and systems that subscribe
   to them is known as \emph{Event-driven Architecture} or EDA.
 
@@ -1386,7 +1425,11 @@
   \frametitle{Indexing programmes information}
   \framesubtitle{Structured data}
   \centering
-  \includegraphics[width=\linewidth]{programmes_ontology.png}
+  \includegraphics[width=3.5in]{programmes_ontology.png}
+  \begin{flushright}
+    \tiny
+    http://www.bbc.co.uk/ontologies/programmes/
+  \end{flushright}
 \end{frame}
 \note{
   We can take a quick look at different kinds of content the BBC has and why
