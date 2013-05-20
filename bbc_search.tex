@@ -1599,10 +1599,19 @@
 
 % Section 12
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{How can we keep improving the experience?}
-  %TODO
-  \missingfigure{}
+  \begin{center}
+    \begin{dot2tex}[circo,mathmode,scale=0.7]
+      digraph G {
+        rankdir=LR;
+        node [shape="circle"];
+        Change -> Feedback
+        Feedback -> Analysis
+        Analysis -> Change
+      }
+    \end{dot2tex}
+  \end{center}
 \end{frame}
 \note{
   The public aren't usually excited by a well-architected search application
