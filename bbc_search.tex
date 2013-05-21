@@ -784,6 +784,8 @@
 
 \begin{frame}
   \frametitle{Presenting regional and local information}
+  Useful feature on BBC News Manchester website:
+  \vfill
   \includegraphics[width=\linewidth]{local.png}\\
 \end{frame}
 \note{
@@ -824,50 +826,24 @@
 
 % Section 5
 
-\begin{comment}
-  @startuml search_arch.png
-  
-  skinparam monochrome true
-  skinparam componentStyle uml2
-
-  [Web Browser] .d.> () HTTP
-
-  package "Web Application" {
-    [Search Results Pages] -u- HTTP
-  }
-
-
-  package "Data Layer" {
-
-    () "Query Interface" as query
-    () "Index Entrypoint" as entry
-    () "Index Interface" as index
-
-    [Search Results Pages] .d.> query
-    [Search Indexes] -u- query
-
-    [Search Indexes] -l- index
-    [Transformation Processes] .r.> index
-
-    [Transformation Processes] -u- entry
-
-  }
-
-  package "BBC Content Areas" {
-
-    [News Articles] ..> entry
-    [Programmes Information] ..> entry
-    [Sport Articles] ..> entry
-    [Blog Posts] ..> entry
-
-  }
-
-
-  @enduml
-\end{comment}
-\begin{frame}
-  \frametitle{What does BBC Search look like?}
-  \includegraphics[width=\linewidth]{search_arch.png}\\
+\begin{frame}[fragile]
+  \frametitle{What could a BBC-scale Search system look like?}
+  \begin{center}
+    \begin{dot2tex}[pgf,dot,scale=0.4]
+      digraph G {
+        rankdir=BT;
+        node [shape="ellipse"];
+        "Blog Posts" -> Transformation
+        "Sport Articles" -> Transformation
+        "News Articles" -> Transformation
+        "Programmes Information" -> Transformation
+        Transformation -> "Search Indexes"
+        "Search Indexes" -> "Query Interface"
+        "Query Interface" -> "Search Web Application"
+        "Search Web Application" -> "Web Browser"
+      }
+    \end{dot2tex}
+  \end{center}
 \end{frame}
 \note{
   So, we have here a very, very abstract view of what a BBC search could look like. It oversimplifies
@@ -1003,11 +979,11 @@
         rankdir=TB;
 
         news_www [shape=note,label="News Website"]
-        iplayer_www [shape=note,label="iPlayer Website"]
+        iplayer_www [shape=note,label="Programmes Websites"]
         nature_www [shape=note,label="Nature Website"]
 
         news_db [shape=box3d,label="News Database"]
-        iplayer_db [shape=box3d,label="iPlayer Database"]
+        iplayer_db [shape=box3d,label="Programmes Database"]
         nature_db [shape=box3d,label="Nature Database"]
 
         news_www -> news_db
@@ -1116,21 +1092,21 @@
         {
           rank=same
           news_www [shape=note,label="News Website"]
-          iplayer_www [shape=note,label="iPlayer Website"]
+          iplayer_www [shape=note,label="Programmes Websites"]
           nature_www [shape=note,label="Nature Website"]
         }
         
         {
           rank=same
           news_service [shape=circle,label="News\nService"]
-          iplayer_service [shape=circle,label="iPlayer\nService"]
+          iplayer_service [shape=circle,label="Programmes\nService"]
           nature_service [shape=circle,label="Nature\nService"]
         }
 
         {
           rank=same
           news_db [shape=box3d,label="News Database"]
-          iplayer_db [shape=box3d,label="iPlayer Database"]
+          iplayer_db [shape=box3d,label="Programmes Database"]
           nature_db [shape=box3d,label="Nature Database"]
         }
 
@@ -1364,8 +1340,7 @@
         node [shape="box"];
         News -> "CMS A"
         Sport -> "CMS A"
-        CBBC -> "CMS B"
-        CBeebies -> "CMS B"
+        "Children's Games" -> "CMS B"
         Programmes -> "CMS B"
         Programmes -> "CMS C"
         "CMS A" -> "Search Entry Point A"
