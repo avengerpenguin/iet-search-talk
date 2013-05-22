@@ -89,7 +89,7 @@
     \pause \item Search design patterns
     \pause \item Why does BBC have its own search?
     \pause \item What does the BBC have online?
-    \pause \item What does BBC Search look like as software system?
+    \pause \item What could a BBC-scale search application look like?
     \pause \item Model-View-Controller (MVC)
     \pause \item Service-Orientated Architecture (SOA)
     \pause \item Event-Driven Architecture (EDA)
@@ -123,7 +123,8 @@
   Firstly, it might be useful to outline a precise and distilled
   definition of what the World Wide Web (or WWW or just ``web'')
   actually is.
-
+}
+\note{
   The Web is essentially the collection of all pages we can get to
   with a web browser, each with a unique address, known as a
   Uniform Resource Locator or URL. Where the web metaphor
@@ -136,6 +137,7 @@
   primarily or the BBC Search -- we can focus for now on pages
   (and to some extent videos, games, etc. as people are interested
   in watching and playing those, but they bring their own challenges).
+
 }
 
 \begin{frame}[fragile]
@@ -181,6 +183,7 @@
   query (child psychology, perhaps) and then we can point them
   to a recommended floor, shelf number and possibly a list of book
   titles they might be interested in.
+
 }
 
 \begin{frame}
@@ -205,6 +208,7 @@
   and index it, but the page itself will contain links to many featured articles.
   We can keep a note of all those links, follow them to the articles themselves
   and repeat the crawl process using all the links on those pages.
+
 }
 
 \begin{frame}
@@ -223,6 +227,7 @@
   how do we make a machine understand that distinction? It's less obvious to a
   computer and different websites have different layouts, so this can be quite
   an interesting challenge.
+
 }
 
 \begin{frame}
@@ -275,6 +280,7 @@
   the word ``mouse'', should that be put in the same row along with the first
   document that contains mouse? This leads us onto the linguistic techniques we
   need to consider when building a search index.
+
 }
 
 \begin{frame}
@@ -329,6 +335,8 @@
   process also decided to reduce \emph{musician} down to the same as music as that
   is, again, a different concept.
 
+}
+\note{
   Lemmatisation overlaps somewhat with stemming in that stemming could be seen
   as a na\"ive approach to lemmatisation. Our goal here is not just to reduce
   a word to some root stem before using it for our index, but also to find
@@ -351,6 +359,7 @@
   up ``catch'' and wouldn't really expect there to be an entry for caught.
 
   The result of this if we look back at our inverted index example before:
+
 }
 
 \begin{frame}
@@ -377,6 +386,7 @@
   type ``mouse'' or ``mice'' and it would find either entry. This is clearly
   better for users and you can try this out on Google by searching ``mice'' yourself and
   you will likely get plenty of results with ``mouse'' in the title.
+
 }
 
 \begin{frame}
@@ -407,6 +417,7 @@
   We can look briefly at how we decide which are the better matches so
   we can order the results and also how Google deals with the issue
   of wanting to prefer trustworthy sources for a topic.
+
 }
 
 % Section 2
@@ -438,6 +449,7 @@
 
   There are many ways to do this, we can look at an example of one
   approach known as \emph{tf-idf}.
+
 }
 
 \begin{frame}
@@ -465,6 +477,8 @@
   offered by Google today, although it is likely supported by
   many alterations and additiona algorithms now.
 
+}
+\note{
   Briefly, this is best illustrated by the artistic graphic shown here.
   The largest face has the highest Pagerank because it is linked to by
   the most other faces. This is similar to how a lot of people are likely
@@ -487,6 +501,7 @@
   Thus the final ``score'' of a potential result for a search query is
   some combination of the keywords in the document and the Pagerank
   notability score.
+
 }
 
 % Section 3
@@ -514,6 +529,7 @@
   As the web, searching and web design in general has matured over the years,
   common solutions or \emph{patterns} has emerged that we can explore
   briefly now.
+
 }
 
 \begin{frame}
@@ -550,6 +566,7 @@
 
   Since we are looking at design patters, is there a way to solve this
   at the human interface level?
+
 }
 
 \begin{frame}
@@ -570,6 +587,7 @@
   entry. The side effect of this is that users are more likely to type
   in correctly-spelled words if they choose suggestions more often than
   type them in by hand.
+
 }
 
 \begin{frame}
@@ -597,6 +615,7 @@
   They might be typing in a football team like ``Manchester U''. We can
   simultaneously offer the completion ``Manchester United'' whilst also
   suggest things like ``Premier League tables''.
+
 }
 
 \begin{frame}
@@ -626,6 +645,7 @@
   and English documents could tell use that ``apple juice'' tends to be
   ``jus de pomme'' in French, but that ``Apple Computers'' tends to be
   exactly the same in French.
+
 }
 
 \begin{frame}
@@ -648,6 +668,7 @@
   A common interface feature here is to provide facets, which are indication
   of the categories your results fall into and allow you to narrow down your
   search to things only within a particular category.
+
 }
 
 \begin{frame}
@@ -676,6 +697,7 @@
   currently make much use of, but if a user searches ``local news''
   and we know they live in Cardiff, perhaps we can bias towards news
   local to South Wales?
+
 }
 
 \begin{frame}
@@ -699,6 +721,7 @@
   even offer ``advanced search'' as a feature. Despite that,
   many other websites offer an ``advanced search'' link that offers
   up a more powerful form for very precise queries.
+
 }
 
 % Section 4
@@ -728,6 +751,7 @@
   words ``question'' and ``time'' but Google doesn't have the insight
   to know that ``Question Time'' is the exact title of programme produce
   by the BBC.
+
 }
 
 \begin{frame}
@@ -746,6 +770,7 @@
   recent programme, that they might be interesting in similar programmes
   or provide links to information on the actors and characters from
   the show.
+
 }
 
 \begin{frame}
@@ -766,6 +791,7 @@
   such as the civil war in Syria, we can link news articles based on
   topic and provide links to special pages such as live video streams
   or Q\&A overviews.
+
 }
 
 \begin{frame}
@@ -785,6 +811,7 @@
   linking from informational programming such as David's Attenborough's
   Africa or Stargazing Live to all the adult and GCSE learning materials
   on other parts of BBC online?
+
 }
 
 \begin{frame}
@@ -803,6 +830,7 @@
   can the BBC continue to be a leading example with being able to provide
   someone their local weather, travel information and regional news headlines
   all at one as soon as they tell us where they are?
+
 }
 
 \begin{frame}
@@ -827,6 +855,7 @@
   Service content in other countries that historically lacked an
   independent press agency and also support the BBC's worldwide, commerical
   efforts.
+
 }
 
 % Section 5
@@ -880,6 +909,8 @@
   behaviours we will want to add to our software systems at a later date, so a modular approach
   allows us to plug in new components as and when new requirements come up.
 
+}
+\note{
   There is another component here that represents the transformation process pipeline that needs
   to happen before items are sent to be indexed. This is grossly understating just how complex
   this currently is -- and perhaps it may always remain complex due to the diverse nature of
@@ -904,9 +935,11 @@
 
   So, pretending this is just a database and the search results pages are a standard, modern
   web application, what exactly is a standard web application?
+
 }
 
 % Section 6
+% Section 7
 
 \begin{frame}
   \frametitle{Model-View-Controller (MVC)}
@@ -946,6 +979,8 @@
   that uses it. Code \emph{reuse} is a very desirable goal in modular software
   design and engineering.
 
+}
+\note{
   The last component here is the \emph{view} which is essentially just how
   the information is presented to the user. In our case, search results
   are presented as a single web page listing all the results with titles,
@@ -974,6 +1009,7 @@
   yield different results) and instead simply return a copy of the same view
   shown to the last user to do the same search. Such approaches are essential
   for any application with the significant amount of traffic the BBC gets.
+
 }
 
 \begin{frame}[fragile]
@@ -1031,6 +1067,8 @@
   receives the correction. Even worse, what if the process that is copying
   the information stops working one day?
 
+}
+\note{
   Modern software architecture tends to prefer to prevent synchronisation
   problems from happening at all rather than constantly working around
   the potential issues, so let's explore the second option where the BBC
@@ -1083,6 +1121,7 @@
   that the web application has an agreed way to communicate to the
   service application and we have decoupled the user-facing web
   application from the databases.
+
 }
 
 % Section 8
@@ -1136,6 +1175,7 @@
   without fear of disrupting the BBC Nature website so long as
   the iPlayer service keeps providing the specific interface
   they needed.
+
 }
 
 \begin{frame}[fragile]
@@ -1187,6 +1227,7 @@
   of specific services that can pull in that content when it changes,
   do any conversion, transformations or enhancements and then send it to 
   the search indexes.
+
 }
 
 \begin{frame}
@@ -1236,6 +1277,7 @@
   other services.
 
   Can we do this in a more elegant a clean way?
+
 }
 
 % Section 9
@@ -1278,6 +1320,7 @@
   and doesn't require either constantly watching/polling someone's messages
   nor the publisher having to go through a list of all subscribers and send
   them the message directly.
+
 }
 
 \begin{frame}[fragile]
@@ -1300,7 +1343,7 @@
     \end{dot2tex}
   \end{center}
 \end{frame}
-  \note{
+\note{
   The concept of events, systems that publish them and systems that subscribe
   to them is known as \emph{Event-driven Architecture} or EDA.
 
@@ -1331,6 +1374,7 @@
   a way that if our system does fail in any way, it can pick up where it
   left off when we get it working again -- much like catching up on email
   or your Twitter feed if you've been away for a while.
+
 }
 
 % Section 10
@@ -1399,6 +1443,7 @@
   -- perhaps synonyms such as American President -- so we can allow people
   to search using that extra information and not what was literally
   within the article itself.
+
 }
 
 \begin{frame}
@@ -1463,6 +1508,7 @@
   do not just want to know when a new programme is added to the database,
   but we need to know between which dates we should be telling people they
   are able to watch it on iPlayer.
+
 }
 
 \begin{frame}
@@ -1498,6 +1544,7 @@
   the European Union, but perhaps if the journalists have tagged which articles
   are specifically ``about'' the EU, I can instead get a quick summary of the
   latest news about the EU.
+
 }
 
 \begin{frame}
@@ -1530,6 +1577,7 @@
   is no team of employees we can contact for help. The only way we can
   present that information is to run a web crawler and just index what
   we can find.
+
 }
 
 % Section 11
@@ -1549,6 +1597,7 @@
   don't attempt to present a single results list as Google would, but perhaps
   we can get it down into one list? This would not be without its own problems
   however.
+
 }
 
 \begin{frame}
@@ -1575,6 +1624,7 @@
   and the GCSE Geography pages that teach about them. I'm not saying we have
   all the answers right now, but it's an interesting challenge for the next
   few years.
+
 }
 
 % Section 12
@@ -1610,6 +1660,7 @@
 
   To finish off, I will quickly look at how any modern web site will seek
   continuous improvement, including BBC Search.
+
 }
 
 \begin{frame}
@@ -1634,6 +1685,7 @@
   Generally, I think this is a solid starting point for doing any kind of
   improvement of your website as without stats, it's hard to say whether
   changes you make increase or reduce the users that come to you.
+
 }
 
 \begin{frame}
@@ -1661,6 +1713,7 @@
   long term, but a more dynamic search system would take feedback directly
   from the analytics system and start promoting or boosting things that
   appear to be popular exactly when the trend begins to happen.
+
 }
 
 \begin{frame}[fragile]
@@ -1683,6 +1736,7 @@
   on precipitation, but if we happen to know it's in the midst of nationwide
   reports of heavy snow and travel warnings, that people are actually looking
   to see what alerts and travel warnings there are for their area.
+
 }
 
 \begin{frame}
@@ -1696,6 +1750,7 @@
   morning? Are people's searches different at 10am as they are at 10pm?
   I don't really have specific answers to this right now, but time-sensitive
   searches could well be an area worth exploring.
+
 }
 
 \begin{frame}
@@ -1715,6 +1770,7 @@
   headlines if they are just looking for news. If they search for football,
   I can know to prefer Scottish leagues and the Scottish national side over
   English league articles.
+
 }
 
 \begin{frame}
@@ -1729,6 +1785,7 @@
   we feed in information dynamically from these social network sites to
   boost things in the search results we know people are very keen to read
   or watch, so much so that they then pass it on to their friends?
+
 }
 
 \begin{frame}
