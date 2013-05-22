@@ -900,6 +900,8 @@
   create separate applications to act as the search engine and the web application responsible for
   interaction with users as they are distinct responsibilities or concerns.
 
+}
+\note{
   Modular approaches
   like this in software engineering mean, for example, we can create very different applications
   further down the line that talk directly to the query interface and do very different things
@@ -909,8 +911,6 @@
   behaviours we will want to add to our software systems at a later date, so a modular approach
   allows us to plug in new components as and when new requirements come up.
 
-}
-\note{
   There is another component here that represents the transformation process pipeline that needs
   to happen before items are sent to be indexed. This is grossly understating just how complex
   this currently is -- and perhaps it may always remain complex due to the diverse nature of
@@ -924,6 +924,8 @@
   items like these all enter the search index in some common format and this can involve
   several different applications all communicating over networks.
 
+}
+\note{
   We will look at common architectural approaches for very complex applications, but first we will
   focus on the design of the web application side. We can see here that we can group all
   the search indexing and transformation applications into a data layer. In this way, we can
@@ -966,6 +968,8 @@
   box on the website and pass that query to the model layer so it can send it
   on to the search indexes.
 
+}
+\note{
   This, in some ways, acts as a translation between
   the Hypertext Transfer Protocol (HTTP) of the web and the model layer whilst
   also providing
@@ -979,8 +983,6 @@
   that uses it. Code \emph{reuse} is a very desirable goal in modular software
   design and engineering.
 
-}
-\note{
   The last component here is the \emph{view} which is essentially just how
   the information is presented to the user. In our case, search results
   are presented as a single web page listing all the results with titles,
@@ -991,6 +993,8 @@
   The view is then the part that the designers can tweak to be aesthetically
   pleasing and user-friendly.
 
+}
+\note{
   Note that in our search application, the controller is only asking the model
   for results and doesn't alter the search indexes in any way. In a general
   web application, such as Wikipedia, users can send requests to read and also
@@ -1057,6 +1061,8 @@
   iPlayer database at the same time and present the information combined
   in however way it likes.
 
+}
+\note{
   So, if we take the first option, we have a situation where there are
   technically two copies of every nature programme's information. One copy
   lives in the iPlayer database and one in the Nature database. There are
@@ -1067,13 +1073,13 @@
   receives the correction. Even worse, what if the process that is copying
   the information stops working one day?
 
-}
-\note{
   Modern software architecture tends to prefer to prevent synchronisation
   problems from happening at all rather than constantly working around
   the potential issues, so let's explore the second option where the BBC
   Nature website has direct access to the iPlayer database itself.
 
+}
+\note{
   The problems that arise here is now the iPlayer web developers cannot
   restructure their database in any way without remembering to tell
   the team working on BBC Nature, otherwise the BBC Nature web application
@@ -1433,6 +1439,8 @@
   format we need for search and finally it all gets sent into the common
   search indexes.
 
+}
+\note{
   This is a simplistic view. The transformation for CMS C, say, might be
   very simple, but the transformation for CMS A could involve a lot of
   further services. Note that I've shown here some external information
@@ -1482,6 +1490,8 @@
   a smartphone and I get search results telling me what I can watch on catch-up
   on a PC, but half of them aren't available on my phone, is that useful?
 
+}
+\note{
   The main point here is that programmes are what we'd call very
   \emph{structured} data. There are a lot of different kinds of objects --
   brands, series, episodes, channels, devices, etc. -- and they relate to
